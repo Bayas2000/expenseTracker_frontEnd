@@ -53,7 +53,7 @@ const Stats = () => {
   Business: "#FFA500",        // orange
   Salary: "#AFE1AF",          // light green
   Investment: "#F59E0B",      // amber-500
-  "Wifi Recharge": "#3B82F6", // blue-500
+  "Wifi": "#3B82F6", // blue-500
 };
 
 
