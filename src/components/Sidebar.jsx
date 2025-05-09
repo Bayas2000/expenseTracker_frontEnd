@@ -6,22 +6,22 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const state = useSelector((state) => state.sidebar?.sidebarToggle);
-    const mode = useSelector((state) => state.theme.mode);
-  
+  const mode = useSelector((state) => state.theme.mode);
 
   return (
     <nav className="">
-      <ul className={`flex flex-col justify-center items-center gap-y-6 w-14 bg-[#2D3A45] text-[#E1E1E1]  p-8 px-10 rounded-lg shadow-md  
+      <ul
+        className={`flex flex-col justify-center items-center gap-y-6 w-14 bg-[#2D3A45] text-[#E1E1E1]  p-8 px-10 rounded-lg shadow-md  
         transition-all duration-300 ease-in-out
         ${
           mode == "dark" ? "bg-[#2D3A45] text-[#E1E1E1]" : "bg-white text-black"
         }
-         `}>
+         `}
+      >
         <li
           className={`group flex items-center flex-col text-[12px] cursor-pointer transition-all duration-200 ease-in-out 
             ${state === "home" ? "text-blue-800" : ""}
-            hover:text-blue-600 hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md`}
-          
+            hover:text-blue-600 hover:scale-105 hover:bg-gray-200  p-2 rounded-md`}
           onClick={() => dispatch(toggleSidebar("home"))}
         >
           <svg
@@ -44,8 +44,7 @@ const Sidebar = () => {
         <li
           className={`group flex items-center flex-col text-[12px] cursor-pointer transition-all duration-200 ease-in-out 
             ${state === "stats" ? "text-blue-800" : ""}
-            hover:text-blue-600 hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md`}
-          
+            hover:text-blue-600 hover:scale-105 hover:bg-gray-200 p-2 rounded-md`}
           onClick={() => dispatch(toggleSidebar("stats"))}
         >
           <svg
@@ -64,14 +63,14 @@ const Sidebar = () => {
             <line x1="18" x2="18" y1="20" y2="4"></line>
             <line x1="6" x2="6" y1="20" y2="16"></line>
           </svg>
-          <span className={`${state == "stats" && "text-blue-800"} `}>Stats</span>
-          
+          <span className={`${state == "stats" && "text-blue-800"} `}>
+            Stats
+          </span>
         </li>{" "}
         <li
-         className={`group flex items-center flex-col text-[12px] cursor-pointer transition-all duration-200 ease-in-out 
+          className={`group flex items-center flex-col text-[12px] cursor-pointer transition-all duration-200 ease-in-out 
           ${state === "profile" ? "text-blue-800" : ""}
-          hover:text-blue-600 hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md`}
-        
+          hover:text-blue-600 hover:scale-105 hover:bg-gray-200  p-2 rounded-md`}
           onClick={() => dispatch(toggleSidebar("profile"))}
         >
           <svg
@@ -94,10 +93,9 @@ const Sidebar = () => {
           </span>
         </li>{" "}
         <li
-         className={`group flex items-center flex-col text-[12px] cursor-pointer transition-all duration-200 ease-in-out 
+          className={`group flex items-center flex-col text-[12px] cursor-pointer transition-all duration-200 ease-in-out 
           ${state === "setting" ? "text-blue-800" : ""}
-          hover:text-blue-600 hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md`}
-        
+          hover:text-blue-600 hover:scale-105 hover:bg-gray-200 p-2 rounded-md`}
           onClick={() => dispatch(toggleSidebar("setting"))}
         >
           <svg
