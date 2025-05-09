@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+.openModal {
+    backdrop-filter: blur(5px) !important;
+}
+
+.react-select__control {
+    @apply h-4 rounded-lg border border-gray-300;
+  }
+  
+  .react-select__value-container {
+    @apply px-2;
+  }
+  
+  .gradient-toast {
+    background: linear-gradient(135deg, #ece9e6, #ffffff) !important;
+    color: #333 !important;
+    font-weight: 500;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+   
+  
