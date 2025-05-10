@@ -3,7 +3,6 @@ import api from "../api/api";
 import { useSelector } from "react-redux";
 
 const Stats = () => {
-
   const mode = useSelector((state) => state.theme.mode);
 
   const [savingsRate, setSavingsRate] = useState(0);
@@ -42,20 +41,19 @@ const Stats = () => {
       });
   }, [filterType]);
 
- const categoryColors = {
-  "Food & Drinks": "#60A5FA", // blue-400
-  Travel: "#FBBF24",          // yellow-400
-  Groceries: "#34D399",       // green-400
-  Loan: "#F87171",            // red-400
-  Beauty: "#D946EF",          // purple-400
-  Education: "#A78BFA",       // indigo-400
-  Others: "#9CA3AF",          // gray-400
-  Business: "#FFA500",        // orange
-  Salary: "#AFE1AF",          // light green
-  Investment: "#F59E0B",      // amber-500
-  "Wifi": "#3B82F6", // blue-500
-};
-
+  const categoryColors = {
+    "Food & Drinks": "#60A5FA", // blue-400
+    Travel: "#FBBF24", // yellow-400
+    Groceries: "#34D399", // green-400
+    Loan: "#F87171", // red-400
+    Beauty: "#D946EF", // purple-400
+    Education: "#A78BFA", // indigo-400
+    Others: "#9CA3AF", // gray-400
+    Business: "#FFA500", // orange
+    Salary: "#AFE1AF", // light green
+    Investment: "#F59E0B", // amber-500
+    Wifi: "#3B82F6", // blue-500
+  };
 
   return (
     <div className="lg:w-[80%] max-w-[750px]">

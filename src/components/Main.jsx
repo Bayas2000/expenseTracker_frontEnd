@@ -8,7 +8,7 @@ import Setting from "./Setting";
 import Header from "./Header";
 import useIsLargeScreen from "./hooks/useLargeScreen";
 import BottomBar from "./BottomBar";
-
+import Goals from "./goals/Goals";
 const Main = () => {
   const state = useSelector((state) => state.sidebar?.sidebarToggle);
   const mode = useSelector((state) => state.theme.mode);
@@ -39,14 +39,14 @@ const Main = () => {
         }`}
       >
         {isLargeScreen ? (
-          <div className=" w-[20%] flex justify-center mt-[8%] ">
+          <div className=" w-[20%] flex justify-center mt-[4%] ">
             <Sidebar />
           </div>
         ) : null}
 
         {state == "home" ? (
           <div
-            className={`lg:w-[90%] w-[100%] min-h-screen ${
+            className={`lg:w-[80%] w-[100%] min-h-screen ${
               !isLargeScreen ? "w-[100%]" : ""
             }`}
           >
@@ -67,6 +67,14 @@ const Main = () => {
             }`}
           >
             <Profile />
+          </div>
+        ) : state == "goals" ? (
+          <div
+            className={`lg:w-[90%] w-[100%] min-h-screen   ${
+              !isLargeScreen ? "w-[100%]" : ""
+            }`}
+          >
+            <Goals />
           </div>
         ) : state == "setting" ? (
           <div

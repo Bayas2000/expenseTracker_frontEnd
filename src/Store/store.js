@@ -6,6 +6,7 @@ import SideBarSlice from "./sidebarSlice";
 import AuthUserSlice from "./AuthSlice";
 import BannerSlice from "./Banner";
 import themeSlice from "./themeSlice";
+import GoalsSlice from './Goals'
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   Auth: AuthUserSlice,
   banner: BannerSlice,
   theme: themeSlice,
+  goals : GoalsSlice,
 });
 
 // Configuration for redux-persist

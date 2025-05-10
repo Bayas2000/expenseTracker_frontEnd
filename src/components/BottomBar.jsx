@@ -13,7 +13,7 @@ const BottomBar = () => {
       <ul
         className={`${
           mode == "dark" ? "bg-[#f5f6fa]" : "bg-white"
-        } grid grid-cols-4 items-center  p-3 shadow-lg`}
+        } grid grid-cols-5 items-center  p-3 shadow-lg`}
       >
         <li
           className={`flex items-center flex-col  text-[12px] cursor-pointer 
@@ -67,8 +67,34 @@ const BottomBar = () => {
             Stats
           </span>
         </li>{" "}
+         <li
+          className={`flex items-center flex-col  text-[12px] cursor-pointer 
+             ${state === "goals" ? "text-blue-800" : ""}
+            hover:text-blue-600 hover:scale-105  rounded-md`}
+          onClick={() => dispatch(toggleSidebar("goals"))}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={`${state === "goals" ? "blue" : "currentColor"}`}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-goal-icon"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+          <span className={`${state === "goals" && "text-blue-800"} `}>
+            Goals
+          </span>
+        </li>
         <li
-           className={`flex items-center flex-col  text-[12px] cursor-pointer 
+          className={`flex items-center flex-col  text-[12px] cursor-pointer 
             ${state === "profile" ? "text-blue-800" : ""}
            hover:text-blue-600 hover:scale-105  rounded-md`}
           onClick={() => dispatch(toggleSidebar("profile"))}

@@ -11,7 +11,7 @@ const Sidebar = () => {
   return (
     <nav className="">
       <ul
-        className={`flex flex-col justify-center items-center gap-y-6 w-14 bg-[#2D3A45] text-[#E1E1E1]  p-8 px-10 rounded-lg shadow-md  
+        className={`flex flex-col justify-center items-center gap-y-4 w-14 bg-[#2D3A45] text-[#E1E1E1]  p-8 px-10 rounded-lg shadow-md  
         transition-all duration-300 ease-in-out
         ${
           mode == "dark" ? "bg-[#2D3A45] text-[#E1E1E1]" : "bg-white text-black"
@@ -67,6 +67,32 @@ const Sidebar = () => {
             Stats
           </span>
         </li>{" "}
+        <li
+          className={`group flex items-center flex-col text-[12px] cursor-pointer transition-all duration-200 ease-in-out 
+    ${state === "goals" ? "text-blue-800" : ""}
+    hover:text-blue-600 hover:scale-105 hover:bg-gray-200 p-2 rounded-md`}
+          onClick={() => dispatch(toggleSidebar("goals"))}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={`${state === "goals" ? "blue" : "currentColor"}`}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-goal-icon"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+          <span className={`${state === "goals" && "text-blue-800"} `}>
+            Goals
+          </span>
+        </li>
         <li
           className={`group flex items-center flex-col text-[12px] cursor-pointer transition-all duration-200 ease-in-out 
           ${state === "profile" ? "text-blue-800" : ""}
