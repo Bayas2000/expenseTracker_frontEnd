@@ -45,13 +45,13 @@ const Expenses = ({ setOpenAddModal, setActiveTab }) => {
         </svg>
         <span className=" font-semibold ml-2">Expenses</span>
       </div>
-      <div className=" grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-cols-1 gap-x-6 ">
+      <div className=" grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 grid-cols-1 gap-x-6 ">
         {expenses?.length > 0 &&
           expenses.map((data) => (
             <div
               key={data._id}
               className={` ${
-                mode == "dark" ? "bg-[#2A3A47] text-[#F1F1F1]" : ""
+                mode == "dark" ? "bg-[#2A3A47] text-[#F1F1F1]" : "bg-white"
               }  h-16 mt-4 p-4 lg:min-w-[230px] min-w-[180px]
              flex items-center gap-2 rounded-md shadow-md cursor-pointer
              hover:scale-105 transform-gpu transition duration-300 ease-out 
