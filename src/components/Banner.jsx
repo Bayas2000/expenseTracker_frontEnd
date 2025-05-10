@@ -158,7 +158,7 @@ const Banner = () => {
                 {label}
               </p>
               <p className={`text-2xl font-bold text-${color}-600`}>
-                ₹{value ?? 0}
+                {value ?? 0}
               </p>
             </div>
             <div className="p-2 rounded-full bg-white shadow">{icon}</div>
