@@ -6,7 +6,9 @@ import SideBarSlice from "./sidebarSlice";
 import AuthUserSlice from "./AuthSlice";
 import BannerSlice from "./Banner";
 import themeSlice from "./themeSlice";
-import GoalsSlice from './Goals'
+import GoalsSlice from "./Goals";
+import GroupHeader from "./Groups/header";
+import Groups from "./Groups/groupsList";
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -14,14 +16,18 @@ const rootReducer = combineReducers({
   Auth: AuthUserSlice,
   banner: BannerSlice,
   theme: themeSlice,
-  goals : GoalsSlice,
+  goals: GoalsSlice,
+
+  // group
+  groupHeader: GroupHeader,
+  groups: Groups,
 });
 
 // Configuration for redux-persist
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["theme" , "Auth"], // only persist the theme slice
+  whitelist: ["theme", "Auth"], // only persist the theme slice
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

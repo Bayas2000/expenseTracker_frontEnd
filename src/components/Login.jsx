@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
 import { useDispatch, useSelector } from "react-redux";
-import { isLoggedIn } from "../Store/AuthSlice";
+import { isLoggedIn, loadUserData } from "../Store/AuthSlice";
 import { persistor } from "../Store/store";
 
-const Login = () => {
+const Login = ({ setOpenLogIn, setOptionModal }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -36,7 +36,10 @@ const Login = () => {
       const token = res.data.data;
       localStorage.setItem("token", token);
       dispatch(isLoggedIn(true));
-      navigate("/home");
+      dispatch(loadUserData());
+      // navigate("/options");
+      setOptionModal(true);
+      setOpenLogIn(false);
     } catch (err) {
       console.error(err);
       if (err.response?.status === 400) {
@@ -49,11 +52,27 @@ const Login = () => {
     }
   };
 
+  // bg-gradient-to-br from-blue-400 to-purple-600
+
+  const modalRef = React.useRef();
+
+  const handleClickOutside = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      setOpenLogIn(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 to-purple-600">
-      <div className="bg-white bg-opacity-80 backdrop-filter backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-sm p-8">
+    <div
+      onClick={handleClickOutside}
+      className=" fixed flex items-center justify-center inset-0 z-100 bg-black/50 "
+    >
+      <div
+        ref={modalRef}
+        className="bg-white bg-opacity-80 backdrop-filter backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-sm p-8"
+      >
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-gray-800">Expense Tracker</h1>
+          <h1 className="text-4xl font-bold text-gray-800">INVESTMATE</h1>
           <p className="text-gray-600 mt-2">Sign in to manage your finances</p>
         </div>
 

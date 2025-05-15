@@ -15,21 +15,6 @@ const Main = () => {
 
   const isLargeScreen = useIsLargeScreen();
 
-  const renderContent = () => {
-    switch (state) {
-      case "home":
-        return <Content />;
-      case "stats":
-        return <Stats />;
-      case "profile":
-        return <Profile />;
-      case "setting":
-        return <Setting />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="w-[100%] lg:pb-0  pb-[4rem]">
       <Header />
@@ -46,7 +31,7 @@ const Main = () => {
 
         {state == "home" ? (
           <div
-            className={`lg:w-[80%] w-[100%] min-h-screen ${
+            className={`lg:w-[90%] w-[100%] min-h-screen ${
               !isLargeScreen ? "w-[100%]" : ""
             }`}
           >

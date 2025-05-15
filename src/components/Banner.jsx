@@ -44,15 +44,34 @@ const Banner = () => {
 
   return (
     <div className="relative max-w-6xl mx-auto p-6">
-      {/* Header Row with Title and Filter */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-        <h1
-          className={` ${
-            mode == "dark" ? " text-white" : "text-gray-800"
-          } text-2xl font-bold `}
-        >
-          Dashboard Overview
-        </h1>
+       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+        <div className="flex items-center space-x-4">
+          <button
+            className="flex items-center gap-2 bg-gray-600 text-white px-3 py-1 rounded-md hover:bg-gray-700 transition-all mt-1 cursor-pointer"
+            onClick={() => window.history.back()}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="18px"
+              viewBox="0 -960 960 960"
+              width="20px"
+              fill="currentColor"
+            >
+              <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+            </svg>
+            <span className="text-sm font-semibold">Back</span>
+          </button>
+
+          <h1
+            className={`${
+              mode === "dark" ? "text-white" : "text-gray-800"
+            } text-3xl font-extrabold tracking-tight`}
+          >
+            Financial Summary
+          </h1>
+        </div>
+
+        {/* Filter Dropdown */}
         <Select
           className="w-[160px] mt-4 md:mt-0"
           value={days}

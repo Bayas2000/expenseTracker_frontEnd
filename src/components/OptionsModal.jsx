@@ -1,0 +1,79 @@
+import { useRef } from "react";
+import { useSelector } from "react-redux";
+import personal from "../assets/personal.png";
+import business from "../assets/business.png";
+import { useNavigate } from "react-router-dom";
+
+const OptionModal = ({ optionModal, setOptionModal }) => {
+  const UserData = useSelector((state) => state.Auth.UserData);
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
+        <div
+          className={`w-[90%] max-w-sm m-4 rounded-2xl shadow-xl transition-all duration-300 bg-white text-gray-900`}
+        >
+          {/* Header */}
+
+          <div className="p-6 text-center">
+            <div
+              className="flex justify-end -mt-2 -mr-2 cursor-pointer"
+              onClick={() => setOptionModal(false)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+                className="hover:text-red-500 transition-colors"
+              >
+                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold text-blue-500">
+              Welcome, {UserData?.userName}
+            </h1>
+            <h2 className="text-lg font-medium text-gray-800  mt-2">
+              Choose how you'd like to get started
+            </h2>
+            <p className="text-sm text-gray-500 mt-3">
+              Select a mode that best fits your needs to proceed.
+            </p>
+          </div>
+
+          {/* Options */}
+          <div className="flex justify-center gap-6 px-6 py-2 pb-6">
+            <div
+              onClick={() => navigate("/ForPersonal")}
+              className={`p-4 w-32 flex flex-col items-center rounded-lg cursor-pointer shadow-sm hover:shadow-md transition 
+                 bg-gray-100 hover:bg-gray-200`}
+            >
+              <img
+                className="w-16 h-16 object-contain"
+                src={personal}
+                alt="Personal"
+              />
+              <p className="font-semibold mt-2"> For Personal</p>
+            </div>
+
+            <div
+              onClick={() => navigate("/business/dashboard")}
+              className={`p-4 w-32 flex flex-col items-center rounded-lg cursor-pointer shadow-sm hover:shadow-md transition  bg-gray-100 hover:bg-gray-200`}
+            >
+              <img
+                className="w-16 h-16 object-contain"
+                src={business}
+                alt="Business"
+              />
+              <p className="font-semibold mt-2"> For Business</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default OptionModal;

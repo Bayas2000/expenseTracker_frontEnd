@@ -1,46 +1,3 @@
-// import React, { useEffect } from "react";
-// import expense from "../assets/expense4.png";
-// import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-// import DarkModeToggle from "./DarkModeButton";
-
-// const Header = () => {
-//   const isLoggedIn = useSelector((state) => state.Auth);
-//   const { UserLoggedIn } = isLoggedIn;
-//     const mode = useSelector((state) => state.theme.mode);
-
-//   console.log(UserLoggedIn , 'UserLoggedIn');
-
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     if (UserLoggedIn === false) {
-//       navigate("/login");
-//     } else {
-//       navigate("/home");
-//     }
-//   }, [isLoggedIn]);
-
-//   return (
-//     <div className={`${
-//       mode == "dark" ? "bg-[#f5f6fa]" : " bg-[#1D2730] text-[#F1F1F1]"
-//     } flex justify-between items-center border-1 border-gray-200 shadow-md p-2`}>
-//       <div className=" flex justify-between ml-4">
-//         <img className=" w-8 h-8 mt-1" src={expense} />
-//         <h1 className=" text-center text-xl font-bold ml-2 my-2">
-//           {" "}
-//           Daily Expense Tracker
-//         </h1>
-//       </div>
-//       <div className="mr-2 mt-2">
-//         <DarkModeToggle />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Header;
-
 import React, { useEffect } from "react";
 import expense from "../assets/expense4.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,13 +16,13 @@ const Header = () => {
 
   console.log(UserData, "userData");
 
-  useEffect(() => {
-    if (!UserLoggedIn) {
-      navigate("/login");
-    } else {
-      navigate("/home");
-    }
-  }, [UserLoggedIn]);
+  // useEffect(() => {
+  //   if (!UserLoggedIn) {
+  //     navigate("/login");
+  //   } else {
+  //     navigate("/ForPersonHome");
+  //   }
+  // }, [UserLoggedIn]);
 
   React.useEffect(() => {
     api
@@ -87,7 +44,7 @@ const Header = () => {
     >
       <div className="flex items-center gap-3">
         <img className="w-10 h-10" src={expense} alt="Logo" />
-        <h1 className="text-2xl font-semibold">Daily Expense Tracker</h1>
+        <h1 className="text-2xl font-semibold">INVESTMATE</h1>
       </div>
 
       <div className="flex items-center gap-4">
