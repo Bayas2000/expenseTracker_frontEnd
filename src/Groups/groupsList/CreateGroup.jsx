@@ -16,7 +16,7 @@ const CreateGroup = ({ showModal, setShowModal }) => {
 
     const payload = {
       groupName: groupName,
-      monthlyTarget : initialAmount,
+      monthlyTarget: initialAmount,
     };
 
     api
@@ -37,7 +37,7 @@ const CreateGroup = ({ showModal, setShowModal }) => {
   return (
     <div>
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-100 bg-black/50 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
             <h2 className="text-xl font-semibold mb-4">Create New Group</h2>
 

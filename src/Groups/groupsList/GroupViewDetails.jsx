@@ -6,23 +6,40 @@ import CreateMember from "./CreateMember";
 
 const GroupViewDetails = () => {
   const groupDetails = useSelector((state) => state.groups?.group_view_list);
-
+  
   console.log(groupDetails, "groupDetails");
 
   const [showCreateEmployee, setShowCreateEmployee] = React.useState(false);
 
   return (
-    <div>
+    <div className="px-6">
       <div className=" flex items-center justify-between">
-        <h1 className=" text-3xl font-semibold">
-          {groupDetails?.groupName} Overview
-        </h1>
+        <div className="flex items-center gap-3">
+          <button
+            className="flex items-center gap-2 bg-gray-600 text-white px-3 py-1 rounded-md hover:bg-gray-700 transition-all  cursor-pointer"
+            onClick={() => window.history.back()}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="18px"
+              viewBox="0 -960 960 960"
+              width="20px"
+              fill="currentColor"
+            >
+              <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+            </svg>
+            <span className="text-sm font-semibold">Back</span>
+          </button>
+          <h1 className=" text-2xl font-semibold">
+            {groupDetails?.groupName} Overview
+          </h1>
+        </div>
         <button
           onClick={() => {
             setShowCreateEmployee(true);
             console.log("button clicked");
           }}
-          className=" bg-blue-400 p-2 rounded-lg text-white flex items-center shadow-md "
+          className=" bg-blue-400 p-2 rounded-lg text-sm text-white flex items-center shadow-md "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -37,10 +54,10 @@ const GroupViewDetails = () => {
         </button>
       </div>
       <div className="flex items-center mt-8 gap-8">
-        <div className="w-[50%]">
+        <div className="w-[40%]">
           <SummaryCardsGrid />
         </div>
-        <div className="w-[50%] ">
+        <div className="w-[60%] ">
           <GroupChart />
         </div>
       </div>
@@ -96,7 +113,7 @@ const GroupViewDetails = () => {
         <CreateMember
           showModal={showCreateEmployee}
           setShowModal={setShowCreateEmployee}
-          groupId = {groupDetails?._id}
+          groupId={groupDetails?._id}
         />
       )}
     </div>

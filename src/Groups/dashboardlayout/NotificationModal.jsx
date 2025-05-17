@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import profileModalIcon from "../../assets/userModal.png";
 import { useDispatch, useSelector } from "react-redux";
-import { ListNotificationDetails } from "../../Store/Groups/header";
+import { ListNotificationDetails, NotificationAnimate } from "../../Store/Groups/header";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 
@@ -12,15 +12,17 @@ const NotificationModal = ({ modalRef }) => {
     (state) => state.groupHeader?.notification_list || {}
   );
 
-  const [responded, setResponded] = useState({});
+  useEffect(() => {
+    if (
+      Array.isArray(data) &&
+      data.some((item) => item.inviteStatus === "Pending")
+    ) {
+      dispatch(NotificationAnimate());
+    }
+  }, [data]);
 
-  // Load responded notifications from localStorage on mount
   useEffect(() => {
     dispatch(ListNotificationDetails());
-
-    const storedResponses =
-      JSON.parse(localStorage.getItem("respondedNotifications")) || {};
-    setResponded(storedResponses);
   }, [dispatch]);
 
   const handleResponse = async (item, response) => {
@@ -31,14 +33,7 @@ const NotificationModal = ({ modalRef }) => {
 
     try {
       await api.post("/groupMember/inviteResponse", payload);
-
-      // Update local state and localStorage
-      const updatedResponses = { ...responded, [item.groupId]: true };
-      setResponded(updatedResponses);
-      localStorage.setItem(
-        "respondedNotifications",
-        JSON.stringify(updatedResponses)
-      );
+      dispatch(ListNotificationDetails());
     } catch (error) {
       console.error("Failed to send response:", error);
     }
@@ -56,10 +51,10 @@ const NotificationModal = ({ modalRef }) => {
 
       {/* Notification List */}
       <div className="max-h-72 overflow-y-auto divide-y divide-gray-100">
-        {data.length > 0 &&
-        data.some((data) => data.inviteStatus == "Pending") ? (
+        {data.length > 0 ? (
+          // data.some((data) => data.inviteStatus == "Pending")
           data
-            .filter((data) => data.inviteStatus == "Pending")
+            // .filter((data) => data.inviteStatus == "Pending")
             .map((item, index) => (
               <div
                 key={index}
@@ -71,31 +66,36 @@ const NotificationModal = ({ modalRef }) => {
                   className="w-10 h-10 rounded-full bg-gray-100"
                 />
                 <div className="flex-1">
-                  <p className="text-sm text-gray-700 mb-2">{item.message}</p>
+                  <p className="text-sm text-gray-700 mb-1">{item.message}</p>
 
-                  {item.type === "Invitation" && (
+                  {item.type === "Invitation" &&
+                  item.inviteStatus == "Pending" ? (
                     <div>
-                      {responded[item.groupId] ? (
-                        <span className="text-green-600 text-sm font-medium">
-                          Response sent
-                        </span>
-                      ) : (
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleResponse(item, "Accepted")}
-                            className="bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded-lg"
-                          >
-                            Approve
-                          </button>
-                          <button
-                            onClick={() => handleResponse(item, "Rejected")}
-                            className="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded-lg"
-                          >
-                            Reject
-                          </button>
-                        </div>
-                      )}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleResponse(item, "Accepted")}
+                          className="bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded-lg"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => handleResponse(item, "Rejected")}
+                          className="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded-lg"
+                        >
+                          Reject
+                        </button>
+                      </div>
                     </div>
+                  ) : (
+                    <p
+                      className={`${
+                        item.inviteStatus == "Accepted"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      } text-sm`}
+                    >
+                      {item.inviteStatus}
+                    </p>
                   )}
                 </div>
               </div>

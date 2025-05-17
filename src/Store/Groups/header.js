@@ -5,15 +5,19 @@ const GroupHeader = createSlice({
   name: "GroupHeader",
   initialState: {
     notification_list: [],
+    notification_animate: false,
   },
   reducers: {
     ListNotification: (state, action) => {
       state.notification_list = action.payload;
     },
+    NotificationAnimate: (state, action) => {
+      state.notification_animate = action.payload;
+    },
   },
 });
 
-export const { ListNotification } = GroupHeader.actions;
+export const { ListNotification, NotificationAnimate } = GroupHeader.actions;
 
 export const ListNotificationDetails = (month, year) => async (dispatch) => {
   try {

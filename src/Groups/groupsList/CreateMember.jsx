@@ -11,7 +11,7 @@ const CreateMember = ({ showModal, setShowModal, groupId }) => {
   const [initialAmount, setInitialAmount] = React.useState("");
 
   const handleCreateGroup = () => {
-    if (!members || !initialAmount) {
+    if (!members) {
       alert("Please fill in all fields");
       return;
     }
@@ -19,7 +19,6 @@ const CreateMember = ({ showModal, setShowModal, groupId }) => {
     const payload = {
       groupId: groupId,
       memberIds: members.split(","),
-      monthlyTarget: Number(initialAmount),
     };
 
     api
@@ -59,19 +58,6 @@ const CreateMember = ({ showModal, setShowModal, groupId }) => {
                   onChange={(e) => setMembers(e.target.value)}
                   className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring focus:border-blue-500"
                   placeholder="e.g. id1,id2,id3"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Monthly Target
-                </label>
-                <input
-                  type="number"
-                  value={initialAmount}
-                  onChange={(e) => setInitialAmount(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring focus:border-blue-500"
-                  placeholder="Enter monthly Target"
                 />
               </div>
             </div>

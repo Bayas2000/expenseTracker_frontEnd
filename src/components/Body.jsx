@@ -11,7 +11,7 @@ import DashboardLayout from "../Groups/dashboardlayout/DashboardLayout";
 import Groups from "../Groups/groupsList/Groups";
 import GroupViewDetails from "../Groups/groupsList/GroupViewDetails";
 import NotificationPage from "../Groups/dashboardlayout/NotificationPage";
-import InvestmateIntro from '../Groups/dashboard/InvestmateIntro'
+import InvestmateIntro from "../Groups/dashboard/InvestmateIntro";
 
 const body = () => {
   // const appRouter = createBrowserRouter([
@@ -85,9 +85,10 @@ const body = () => {
           element: <Groups />,
         },
         {
-          path: "groupsView",
+          path: "groups/groupsView",
           element: <GroupViewDetails />,
         },
+
         {
           path: "notifications",
           element: <NotificationPage />,

@@ -47,7 +47,7 @@ function Groups() {
   console.log(state, "state");
 
   return (
-    <div className="p-6">
+    <div className="px-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Your Groups</h1>
         <button
@@ -63,32 +63,43 @@ function Groups() {
           state.map((group) => (
             <div
               key={group.id}
-              className="bg-white shadow rounded-xl p-5 border border-gray-200"
+              className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 hover:shadow-lg transition-all duration-300"
             >
-              <h2 className="text-xl font-semibold">{group.groupName}</h2>
-              <p className="text-gray-600 mt-1">
-                Members: {group?.groupDetails.length}
+              {/* Header */}
+              <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                {group.groupName}
+              </h2>
+              <p className="text-sm text-gray-500 mb-2">
+                Members:{" "}
+                <span className="font-medium text-gray-700">
+                  {group?.groupDetails.length}
+                </span>
               </p>
-              <p className="text-green-700 font-medium mt-2">
+
+              {/* Balance */}
+              <p className="text-base font-semibold text-emerald-600 mb-2">
                 Balance: ₹{group.groupBalance.toLocaleString()}
               </p>
-              <p className="text-sm text-gray-400 mt-2">
+
+              {/* Date */}
+              <p className="text-xs text-gray-400 mb-4">
                 Created: {moment(group.createdAt).format("DD-MM-YY")}
               </p>
+
+              {/* Button */}
               <Link
                 onClick={() => {
                   dispatch(ListGroupDetailsView(group));
                 }}
-                to={"/business/groupsView"}
+                to={"/business/groups/groupsView"}
               >
                 <button
                   onClick={() => setShowViewDetails(true)}
-                  className="mt-4 bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-md text-sm"
+                  className="w-full bg-gray-900 hover:bg-gray-800 text-white text-sm py-2 rounded-lg transition-colors"
                 >
                   View Details
                 </button>
               </Link>
-              {/* {showViewDetails && <GroupViewDetails />} */}
             </div>
           ))}
       </div>

@@ -1,14 +1,39 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import profile from "../../assets/user.png";
 import ProfileModal from "./ProfileModal";
 import NotificationModal from "./NotificationModal";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ListNotificationDetails,
+  NotificationAnimate,
+} from "@/Store/Groups/header";
 
 const GroupHeader = () => {
+  const { data = [] } = useSelector(
+    (state) => state.groupHeader?.notification_list || {}
+  );
+  const notificationAvailable = useSelector(
+    (state) => state.groupHeader?.notification_animate
+  );
+
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const profileModalRef = useRef(null);
   const NotificationModalRef = useRef(null);
+
+  console.log(notificationAvailable, "notificationAvailable");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(ListNotificationDetails());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!Array.isArray(data)) return;
+
+    const hasPending = data.some((item) => item.inviteStatus === "Pending");
+    dispatch(NotificationAnimate(hasPending));
+  }, [data]);
 
   // Close profile modal on outside click
   useEffect(() => {
@@ -47,13 +72,13 @@ const GroupHeader = () => {
   }, [isNotificationModalOpen]);
 
   return (
-    <header className="bg-white shadow-sm h-16 px-4 flex justify-end items-center gap-6 relative border-b border-gray-200">
+    <header className="bg-white shadow-sm h-[60px] px-4 flex justify-end items-center gap-6 relative border-b border-gray-200 sticky top-0">
       {/* Notification Button */}
       <div className="relative">
         <button
           onClick={() => setIsNotificationModalOpen((prev) => !prev)}
           aria-label="Notifications"
-          className="text-gray-600 hover:text-gray-800 transition-colors relative"
+          className="text-gray-600 hover:text-gray-800 transition-colors mt-2 relative"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +91,9 @@ const GroupHeader = () => {
           </svg>
 
           {/* Notification badge */}
-          <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-red-500 animate-ping"></span>
+          {notificationAvailable == true && (
+            <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-red-500 animate-ping"></span>
+          )}
         </button>
 
         {isNotificationModalOpen && (
@@ -90,4 +117,3 @@ const GroupHeader = () => {
 };
 
 export default GroupHeader;
-

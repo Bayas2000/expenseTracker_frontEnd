@@ -10,7 +10,7 @@ const GroupRoutes = () => (
     <Route path="/business" element={<DashboardLayout />}>
       <Route path="dashboard" element={<GroupDashboard />} />
       <Route path="groups" element={<Groups />} />
-      <Route path="groupsView" element={<GroupViewDetails />} />
+      <Route path="groups/groupsView" element={<GroupViewDetails />} />
       <Route path="notifications" element={<NotificationPage />} />
     </Route>
   </Routes>

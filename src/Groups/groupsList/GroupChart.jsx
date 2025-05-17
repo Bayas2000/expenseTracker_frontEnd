@@ -38,7 +38,7 @@ const GroupChart = () => {
       <p className="text-white text-sm mb-4">
         $1,200 <span className="text-green-300 text-xs">+3.4%</span>
       </p>
-      <ResponsiveContainer width="100%" height={130}>
+      <ResponsiveContainer width="100%" height={150}>
         <BarChart data={spendingData}>
           <CartesianGrid stroke="rgba(255,255,255,0.1)" />
           <XAxis
