@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import profile from "../../assets/user.png";
+import profile from "../../assets/profileAvatar.jpg";
 import ProfileModal from "./ProfileModal";
 import NotificationModal from "./NotificationModal";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,8 @@ const GroupHeader = () => {
   const notificationAvailable = useSelector(
     (state) => state.groupHeader?.notification_animate
   );
+    const UserData = useSelector((state) => state.Auth.UserData);
+
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
@@ -104,7 +106,7 @@ const GroupHeader = () => {
       {/* Profile Image */}
       <div className="relative">
         <img
-          src={profile}
+          src={UserData?.profileImage || profile}
           alt="User profile"
           className="h-8 w-8 rounded-full border-2 border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-150"
           onClick={() => setIsProfileModalOpen((prev) => !prev)}

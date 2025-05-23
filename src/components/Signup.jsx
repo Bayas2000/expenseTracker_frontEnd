@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -10,8 +11,30 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [image, setImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const handleImageChange = (e) => {
+  const file = e.target.files?.[0];
+  console.log(file , 'file');
+  
+  if (file) {
+    setImage(file);
+    const formData = new FormData()
+    formData.append('file',file)
+    api.post('/fileUpload/file-upload',formData)
+    .then((res) => {
+      console.log(res.data.data, 'res');
+      setPreviewUrl(res.data.data)
+      toast.success('Image uploaded successfully')
+    })
+    .catch((error) => {
+      toast.error('something went wrong')
+    })
+  }
+};
+
+const handleSubmit = async (e) => {
     e.preventDefault();
     // Basic validation
     if (!username.trim() || !email.trim() || !password || !confirmPassword) {
@@ -25,7 +48,7 @@ const SignUp = () => {
     setError("");
 
     try {
-      const payload = { userName: username.trim(), emailId: email.trim(), password };
+      const payload = { userName: username.trim(), emailId: email.trim(), password , profileImage:previewUrl };
       const res = await api.post('/userAuth/signup', payload);
       setSuccess("Registration successful! Redirecting to login...");
       setTimeout(() => navigate('/login'), 1500);
@@ -36,18 +59,25 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 to-purple-600">
-      <div className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm rounded-2xl shadow-lg w-full max-w-md p-8">
+    <div className="min-h-screen flex items-center justify-center ">
+      <img
+        className="absolute inset-0 w-full h-full object-cover"
+        
+        src="https://images.pexels.com/photos/15307542/pexels-photo-15307542/free-photo-of-close-up-of-a-blue-fabric-surface.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        alt="Finance Background"
+      />
+      <div className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm rounded-2xl shadow-lg w-full max-w-xl p-8">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Create Account</h1>
           <p className="text-gray-600 mt-1">Join us and track your expenses</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3  ">
           {error && <div className="text-red-500 text-sm text-center" role="alert">{error}</div>}
           {success && <div className="text-green-600 text-sm text-center">{success}</div>}
+          <div className='grid grid-cols-2 space-x-3 space-y-3'>
 
-          <div>
+          <div >
             <label htmlFor="username" className="block text-gray-700 font-medium mb-1">
               Username
             </label>
@@ -106,10 +136,38 @@ const SignUp = () => {
               placeholder="Re-enter your password"
             />
           </div>
+          <div className="max-w-[245px]">
+      <label className="block text-gray-700 font-medium mb-1">
+        Upload Image
+      </label>
 
+      <label
+        htmlFor="fileUpload"
+        className="flex items-center justify-center w-full px-4 py-2 border border-dashed border-gray-400 rounded-lg cursor-pointer bg-gray-100 hover:bg-gray-200 transition text-sm text-gray-600"
+      >
+        {image ? 'Change Image' : 'Click to upload image'}
+      </label>
+
+      <input
+        id="fileUpload"
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+        className="hidden"
+      />
+
+      {previewUrl && (
+        <img
+          src={previewUrl}
+          alt="Preview"
+          className="mt-3 rounded-lg w-16 h-16 object-cover "
+        />
+      )}
+    </div>
+          </div>
           <button
             type="submit"
-            className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition"
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
           >
             Sign Up
           </button>
@@ -117,7 +175,7 @@ const SignUp = () => {
 
         <p className="text-center text-gray-600 text-sm mt-6">
           Already have an account?{' '}
-          <button onClick={() => navigate('/login')} className="text-purple-600 font-medium hover:underline">
+          <button onClick={() => navigate('/')} className="text-blue-600 font-medium hover:underline">
             Sign in
           </button>
         </p>

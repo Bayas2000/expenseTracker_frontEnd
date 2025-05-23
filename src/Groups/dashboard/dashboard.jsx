@@ -6,10 +6,14 @@ import { isEmpty } from "lodash";
 import useLogout from "../../components/custom_hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import { LogIn, LogOut } from "lucide-react";
+import profile from "../../assets/profileAvatar.jpg";
+import ProfileModalHome from './ProfileModalHome'
+
 
 const Dashboard = () => {
   const [openLogin, setOpenLogIn] = React.useState(false);
   const [optionModal, setOptionModal] = React.useState(false);
+  const [profileModal, setProfileModal] = React.useState(false);
   const UserData = useSelector((state) => state.Auth.UserData);
   const modalRef = React.useRef();
   const navigate = useNavigate();
@@ -19,20 +23,35 @@ const Dashboard = () => {
 
   const handleGetStarted = () => {
     if (isEmpty(UserData)) {
-      setOpenLogIn(true);
+      // setOpenLogIn(true);
+      navigate('/login')
     } else {
       setOptionModal(true);
     }
   };
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if(modalRef.current && modalRef.current.contains(event.target)){
+        setProfileModal(false)
+      }
+    }
+
+    if(profileModal){
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown',handleClickOutside)
+    }
+  },[profileModal])
+
 
   return (
     <section className="relative w-full h-screen">
       {/* Background Image */}
       <img
         className="absolute inset-0 w-full h-full object-cover"
-        // src="https://images.pexels.com/photos/8358034/pexels-photo-8358034.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        // src="https://images.unsplash.com/photo-1617880726918-4c862e74c826?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        // src="https://images.pexels.com/photos/5912574/pexels-photo-5912574.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         src="https://images.pexels.com/photos/15307542/pexels-photo-15307542/free-photo-of-close-up-of-a-blue-fabric-surface.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         alt="Finance Background"
       />
@@ -41,46 +60,37 @@ const Dashboard = () => {
       <div className="absolute inset-0 bg-black/60"></div>
 
       {/* Header */}
-      <header className="absolute top-0 left-0 w-full z-20 px-6 py-4 flex items-center justify-between bg-transparent">
-        <h1 className="text-white text-2xl font-bold flex items-end relative">
-          INVESTMATE
-          <span className="text-[12px]  font-normal absolute whitespace-nowrap top-8  text-gray-400">
-            Start small. Think big. Grow together.
-          </span>
-        </h1>
-        {/* {isEmpty(UserData) ? (
-          <button
-            onClick={() => setOpenLogIn(true)}
-            className="ml-auto md:ml-0 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md font-semibold transition"
-          >
-            Login
-          </button>
-        ) : (
-          <button
-            onClick={logout}
-            className="ml-auto md:ml-0 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md font-semibold transition shadow-sm"
-          >
-            Log out
-          </button>
-        )} */}
-        {isEmpty(UserData) ? (
-          <button
-            onClick={() => setOpenLogIn(true)}
-            className="ml-auto md:ml-0 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-full transition shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-300 flex items-center gap-2"
-          >
-            <LogIn className="w-4 h-4" />
-            Login
-          </button>
-        ) : (
-          <button
-            onClick={logout}
-            className="ml-auto md:ml-0 px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white font-medium rounded-full transition shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-300 flex items-center gap-2"
-          >
-            <LogOut className="w-4 h-4" />
-            Log out
-          </button>
-        )}
-      </header>
+    
+      <header className="absolute top-0 left-0 w-full z-30 bg-white backdrop-blur-md border-b border-gray-200 shadow-sm px-6 py-3 flex items-center justify-between">
+  <div>
+    <h1 className="text-black text-2xl font-bold tracking-tight">INVESTMATE</h1>
+    <p className="text-[11px] text-gray-500 -mt-1 ml-[2px] font-medium">
+      Start small. Think big. Grow together.
+    </p>
+  </div>
+
+  <div className="flex items-center gap-4">
+    {isEmpty(UserData) ? (
+      <button
+        onClick={() => navigate('/login')}
+        className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-full shadow-sm hover:shadow-md transition"
+      >
+        <LogIn className="w-4 h-4" />
+        Login
+      </button>
+    ) : (
+      <div className="relative">
+        <img
+          src={UserData?.profileImage || profile}
+          alt="User Profile"
+          className="h-9 w-9 rounded-full border border-gray-300 hover:border-blue-500 cursor-pointer transition-all duration-150"
+          onClick={() => setProfileModal((prev) => !prev)}
+        />
+      </div>
+    )}
+  </div>
+</header>
+
 
       <div
         ref={modalRef}
@@ -124,6 +134,16 @@ const Dashboard = () => {
           <OptionModal
             optionModal={optionModal}
             setOptionModal={setOptionModal}
+          />
+        </div>
+      )}
+      {profileModal && !isEmpty(UserData) && (
+        <div>
+          <ProfileModalHome
+            profileModal={profileModal}
+            setProfileModal={setProfileModal}
+            modalRef = {modalRef}
+            logout={logout}
           />
         </div>
       )}

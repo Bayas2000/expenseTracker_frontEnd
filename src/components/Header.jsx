@@ -50,7 +50,11 @@ const Header = () => {
       <div className="flex items-center gap-4">
         {UserLoggedIn && UserData?.userName && (
           <div className="flex items-center gap-2">
+            {UserData.profileImage ? 
+            <img className='w-5 h-5 border-1 border-blue-400 bg-blue-300 rounded-full' src={UserData?.profileImage} /> : 
             <FaUserCircle size={20} />
+            }
+            
             <span className="text-md">{UserData.userName}</span>
           </div>
         )}

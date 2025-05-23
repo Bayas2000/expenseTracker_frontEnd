@@ -10,9 +10,9 @@ const OptionModal = ({ optionModal, setOptionModal }) => {
 
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
+      <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
         <div
-          className={`w-[90%] max-w-sm m-4 rounded-2xl shadow-xl transition-all duration-300 bg-white text-gray-900`}
+          className={`w-[90%] max-w-sm m-4 rounded-2xl shadow-xl transition-all duration-300 bg-gray-200 text-gray-900`}
         >
           {/* Header */}
 
@@ -33,7 +33,7 @@ const OptionModal = ({ optionModal, setOptionModal }) => {
               </svg>
             </div>
             <h1 className="text-2xl font-bold text-blue-500">
-              Welcome, {UserData?.userName}
+               Hey, {UserData?.userName || "Guest"} 👋
             </h1>
             <h2 className="text-lg font-medium text-gray-800  mt-2">
               Choose how you'd like to get started
@@ -41,6 +41,7 @@ const OptionModal = ({ optionModal, setOptionModal }) => {
             <p className="text-sm text-gray-500 mt-3">
               Select a mode that best fits your needs to proceed.
             </p>
+            
           </div>
 
           {/* Options */}

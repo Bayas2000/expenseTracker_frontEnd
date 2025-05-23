@@ -6,6 +6,7 @@ const Groups = createSlice({
   initialState: {
     groups_list: [],
     group_view_list: [],
+    investment_list: [],
   },
   reducers: {
     ListGroups: (state, action) => {
@@ -14,17 +15,28 @@ const Groups = createSlice({
     ListGroupDetailsView: (state, action) => {
       state.group_view_list = action.payload;
     },
+    InvestmentList: (state, action) => {
+      state.investment_list = action.payload;
+    },
   },
 });
 
-export const { ListGroups, ListGroupDetailsView } = Groups.actions;
+export const { ListGroups, ListGroupDetailsView , InvestmentList } = Groups.actions;
 
 export const ListGroupsDetails = () => async (dispatch) => {
   try {
     const response = await api.get("/group/get-all-data");
-    console.log(response , 'response');
     
     dispatch(ListGroups(response.data.data));
+  } catch (error) {
+    throw new Error();
+  }
+};
+export const ListInvestmentDetails = () => async (dispatch) => {
+  try {
+    const response = await api.get("/investment/get-all-data");
+    
+    dispatch(InvestmentList(response.data.data));
   } catch (error) {
     throw new Error();
   }

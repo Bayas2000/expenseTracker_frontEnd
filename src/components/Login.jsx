@@ -37,9 +37,9 @@ const Login = ({ setOpenLogIn, setOptionModal }) => {
       localStorage.setItem("token", token);
       dispatch(isLoggedIn(true));
       dispatch(loadUserData());
-      // navigate("/options");
-      setOptionModal(true);
-      setOpenLogIn(false);
+      navigate("/");
+      // setOptionModal(true);
+      // setOpenLogIn(false);
     } catch (err) {
       console.error(err);
       if (err.response?.status === 400) {
@@ -54,21 +54,21 @@ const Login = ({ setOpenLogIn, setOptionModal }) => {
 
   // bg-gradient-to-br from-blue-400 to-purple-600
 
-  const modalRef = React.useRef();
+  // const modalRef = React.useRef();
 
-  const handleClickOutside = (e) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
-      setOpenLogIn(false);
-    }
-  };
+  // const handleClickOutside = (e) => {
+  //   if (modalRef.current && !modalRef.current.contains(e.target)) {
+  //     setOpenLogIn(false);
+  //   }
+  // };
 
   return (
     <div
-      onClick={handleClickOutside}
+      // onClick={handleClickOutside}
       className=" fixed flex items-center justify-center inset-0 z-100 bg-black/50 "
     >
       <div
-        ref={modalRef}
+        // ref={modalRef}
         className="bg-white bg-opacity-80 backdrop-filter backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-sm p-8"
       >
         <div className="text-center mb-6">
