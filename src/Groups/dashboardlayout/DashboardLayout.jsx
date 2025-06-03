@@ -10,15 +10,15 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="z-9999">
+      <div className={`z-9999 `}>
         <Sidebar />
       </div>
       <main className="flex-1 bg-gray-100 ">
         <GroupHeader />
 
         <div
-          className={`p-6 bg-white min-h-screen ${
-            sidebarToggle ? "w-[81%] ml-64" : "ml-8"
+          className={` min-h-screen bg-gray-50 ${
+            sidebarToggle ? "lg:w-[81%] ml-64 " : "ml-8 p-6 pt-0 pr-0"
           } `}
         >
           <Outlet />

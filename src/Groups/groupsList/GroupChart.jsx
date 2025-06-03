@@ -13,7 +13,7 @@ const spendingData = [
   { day: "Sun", amount: 24000 },
   { day: "Mon", amount: 32000 },
   { day: "Tue", amount: 18000 },
-  { day: "Wed", amount: 45000 }, // Highlight this bar
+  { day: "Wed", amount: 45000 }, 
   { day: "Thu", amount: 30000 },
   { day: "Fri", amount: 37000 },
   { day: "Sat", amount: 22000 },

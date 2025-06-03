@@ -7,6 +7,7 @@ import useLogout from "../../components/custom_hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import { LogIn, LogOut } from "lucide-react";
 import profile from "../../assets/profileAvatar.jpg";
+import investmatelogo from "../../assets/investmentlogo3.png";
 import ProfileModalHome from './ProfileModalHome'
 
 
@@ -62,9 +63,10 @@ const Dashboard = () => {
       {/* Header */}
     
       <header className="absolute top-0 left-0 w-full z-30 bg-white backdrop-blur-md border-b border-gray-200 shadow-sm px-6 py-3 flex items-center justify-between">
-  <div>
-    <h1 className="text-black text-2xl font-bold tracking-tight">INVESTMATE</h1>
-    <p className="text-[11px] text-gray-500 -mt-1 ml-[2px] font-medium">
+  <div >
+    {/* <img src={investmatelogo} className=" h-13 w-30 pt-1 object-cover" /> */}
+    <h1 className="text-gray-700 text-2xl font-bold tracking-tight">INVESTMATE</h1>
+    <p className="text-[8.5px] text-gray-500 -mt-1 ml-[2px] font-medium">
       Start small. Think big. Grow together.
     </p>
   </div>

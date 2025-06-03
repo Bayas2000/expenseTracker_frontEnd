@@ -24,7 +24,7 @@ const ProfileModalHome = ({ modalRef , logout}) => {
 
   return (
     <div
-      className="absolute right-5 top-14.5 mt-3 w-80 bg-white shadow-lg rounded-b-md z-50"
+      className="absolute right-5 top-13.5 mt-3 w-80 bg-white shadow-lg rounded-b-md z-50"
     >
       {/* Profile info */}
       <h1 className='text-lg font-semibold pt-4 px-4'>My Profile</h1>

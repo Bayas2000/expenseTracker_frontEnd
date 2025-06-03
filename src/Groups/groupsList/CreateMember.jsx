@@ -56,7 +56,7 @@ const CreateMember = ({ showModal, setShowModal, groupId }) => {
                   type="text"
                   value={members}
                   onChange={(e) => setMembers(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring focus:border-blue-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 h-16 focus:outline-none focus:ring focus:border-blue-500"
                   placeholder="e.g. id1,id2,id3"
                 />
               </div>

@@ -4,7 +4,7 @@ const SideBarSlice = createSlice({
   name: "Sidebar",
   initialState: {
     sidebarToggle: "home",
-    groupSidebarToggle: true,
+    groupSidebarToggle: false,
   },
   reducers: {
     toggleSidebar: (state, action) => {

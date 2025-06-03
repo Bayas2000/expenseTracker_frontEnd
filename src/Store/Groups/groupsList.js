@@ -7,6 +7,7 @@ const Groups = createSlice({
     groups_list: [],
     group_view_list: [],
     investment_list: [],
+    records_list: [],
   },
   reducers: {
     ListGroups: (state, action) => {
@@ -18,15 +19,23 @@ const Groups = createSlice({
     InvestmentList: (state, action) => {
       state.investment_list = action.payload;
     },
+    GroupsRecordsList: (state, action) => {
+      state.records_list = action.payload;
+    },
   },
 });
 
-export const { ListGroups, ListGroupDetailsView , InvestmentList } = Groups.actions;
+export const {
+  ListGroups,
+  ListGroupDetailsView,
+  InvestmentList,
+  GroupsRecordsList,
+} = Groups.actions;
 
 export const ListGroupsDetails = () => async (dispatch) => {
   try {
     const response = await api.get("/group/get-all-data");
-    
+
     dispatch(ListGroups(response.data.data));
   } catch (error) {
     throw new Error();
@@ -35,8 +44,22 @@ export const ListGroupsDetails = () => async (dispatch) => {
 export const ListInvestmentDetails = () => async (dispatch) => {
   try {
     const response = await api.get("/investment/get-all-data");
-    
+
     dispatch(InvestmentList(response.data.data));
+  } catch (error) {
+    throw new Error();
+  }
+};
+
+export const ListGroupRecords = (groupId) => async (dispatch) => {
+  try {
+    const payload = {
+      groupId: groupId,
+    };
+    const response = await api.get("/group/group-overview", {
+      params: payload,
+    });
+    dispatch(GroupsRecordsList(response.data.data));
   } catch (error) {
     throw new Error();
   }

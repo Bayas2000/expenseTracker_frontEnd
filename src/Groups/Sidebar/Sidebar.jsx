@@ -12,7 +12,7 @@ const links = [
 
 export default function Sidebar() {
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     dispatch(groupSidebar(isOpen));

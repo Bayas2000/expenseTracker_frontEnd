@@ -12,7 +12,7 @@ const OptionModal = ({ optionModal, setOptionModal }) => {
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
         <div
-          className={`w-[90%] max-w-sm m-4 rounded-2xl shadow-xl transition-all duration-300 bg-gray-200 text-gray-900`}
+          className={`w-[90%] max-w-lg m-4 rounded-2xl shadow-xl transition-all duration-300 bg-gray-200 text-gray-900`}
         >
           {/* Header */}
 
@@ -33,7 +33,7 @@ const OptionModal = ({ optionModal, setOptionModal }) => {
               </svg>
             </div>
             <h1 className="text-2xl font-bold text-blue-500">
-               Hey, {UserData?.userName || "Guest"} 👋
+              Hey, {UserData?.userName || "Guest"} 👋
             </h1>
             <h2 className="text-lg font-medium text-gray-800  mt-2">
               Choose how you'd like to get started
@@ -41,14 +41,13 @@ const OptionModal = ({ optionModal, setOptionModal }) => {
             <p className="text-sm text-gray-500 mt-3">
               Select a mode that best fits your needs to proceed.
             </p>
-            
           </div>
 
           {/* Options */}
           <div className="flex justify-center gap-6 px-6 py-2 pb-6">
             <div
               onClick={() => navigate("/ForPersonal")}
-              className={`p-4 w-32 flex flex-col items-center rounded-lg cursor-pointer shadow-sm hover:shadow-md transition 
+              className={`p-4 w-44 flex flex-col items-center rounded-lg cursor-pointer shadow-sm hover:shadow-md transition 
                  bg-gray-100 hover:bg-gray-200`}
             >
               <img
@@ -56,19 +55,25 @@ const OptionModal = ({ optionModal, setOptionModal }) => {
                 src={personal}
                 alt="Personal"
               />
-              <p className="font-semibold mt-2"> For Personal</p>
+              <p className="font-semibold mt-2">Personal</p>
+              <p className="text-xs text-center text-gray-600 mt-1">
+                Track your individual income, expenses, and budget.
+              </p>
             </div>
 
             <div
               onClick={() => navigate("/business/dashboard")}
-              className={`p-4 w-32 flex flex-col items-center rounded-lg cursor-pointer shadow-sm hover:shadow-md transition  bg-gray-100 hover:bg-gray-200`}
+              className={`p-4 w-44 flex flex-col items-center rounded-lg cursor-pointer shadow-sm hover:shadow-md transition  bg-gray-100 hover:bg-gray-200`}
             >
               <img
                 className="w-16 h-16 object-contain"
                 src={business}
                 alt="Business"
               />
-              <p className="font-semibold mt-2"> For Business</p>
+              <p className="font-semibold mt-2">Group Saving</p>
+              <p className="text-xs text-center text-gray-600 mt-1">
+                Manage savings and investments with your group or community.
+              </p>
             </div>
           </div>
         </div>
