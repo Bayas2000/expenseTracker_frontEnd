@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import api from "../../api/api";
 import { useDispatch } from "react-redux";
-import { ListInvestmentDetails } from "../../Store/Groups/groupsList";
+import {
+  ListGroupRecords,
+  ListInvestmentDetails,
+} from "../../Store/Groups/groupsList";
 import { toast } from "react-toastify";
 import Select from "react-select";
 
@@ -74,6 +77,7 @@ const AddTransaction = ({ groupDetails, showModal, setShowModal, groupId }) => {
       .post("/investment/create-many", payload)
       .then((res) => {
         dispatch(ListInvestmentDetails());
+        dispatch(ListGroupRecords(groupId));
         toast.success("Transaction added successfully");
         setShowModal(false);
         setMembers("");

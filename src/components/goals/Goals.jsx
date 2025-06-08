@@ -1,3 +1,6 @@
+
+
+
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import rocket from "../../assets/target.png";
@@ -23,84 +26,66 @@ const Goals = () => {
   const dispatch = useDispatch();
 
   const currentMonth = new Date().toLocaleString("default", { month: "long" });
+  const currentYear = new Date().getFullYear();
 
-  const monthOptions = [
-    { label: "January", value: "January" },
-    { label: "February", value: "February" },
-    { label: "March", value: "March" },
-    { label: "April", value: "April" },
-    { label: "May", value: "May" },
-    { label: "June", value: "June" },
-    { label: "July", value: "July" },
-    { label: "August", value: "August" },
-    { label: "September", value: "September" },
-    { label: "October", value: "October" },
-    { label: "November", value: "November" },
-    { label: "December", value: "December" },
-  ];
+  const monthOptions = [...Array(12)].map((_, i) => {
+    const month = new Date(0, i).toLocaleString("default", { month: "long" });
+    return { label: month, value: month };
+  });
 
   const [selectedMonth, setSelectedMonth] = React.useState(
-    monthOptions.find((month) => month.value === currentMonth)
+    monthOptions.find((m) => m.value === currentMonth)
   );
 
-  const currentYear = new Date().getFullYear();
+  const entry = useSelector((state) => state.goals?.goals_list);
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   useEffect(() => {
     dispatch(LoadGoalsDetails(selectedMonth?.label, currentYear));
   }, [selectedMonth]);
 
-  const entry = useSelector((state) => state.goals?.goals_list);
-
-  const [modalOpen, setModalOpen] = React.useState(false);
-
   const handleCreateTarget = (targetData) => {
-    console.log("Expense target created:", targetData);
     api
       .post("/budget/set-budget-amount", targetData)
-      .then((res) => {
-        toast.success("Expense target is added successfully");
+      .then(() => {
+        toast.success("Expense target added successfully");
         setModalOpen(false);
       })
-      .catch((error) => {
-        toast.error("Something went wrong");
-      });
+      .catch(() => toast.error("Something went wrong"));
   };
 
   const limit = entry?.safeExpenseLimit ?? 0;
+  const totalExpense = entry?.expense?.reduce((sum, e) => sum + e.amount, 0) ?? 0;
 
-  const chartData =
-    entry?.expense?.map((e) => {
-      const day = new Date(e.transactionDate).getDate();
-      const total = e.amount;
-      return {
-        date: `${day}`,
-        total,
-        yellow: total,
-        green: Math.min(total, limit),
-        red: total > limit ? total - limit : 0,
-      };
-    }) ?? [];
-
-  const totalExpense =
-    entry?.expense?.reduce((sum, e) => sum + e.amount, 0) ?? 0;
+  const chartData = entry?.expense?.map((e) => {
+    const day = new Date(e.transactionDate).getDate();
+    const total = e.amount;
+    return {
+      date: `${day}`,
+      total,
+      green: Math.min(total, limit),
+      red: total > limit ? total - limit : 0,
+    };
+  }) ?? [];
 
   return (
     <div className="p-4 lg:w-[100%] mx-auto">
       <div
-        className={`${
+        className={`lg:w-[80%] mx-auto mt-5 rounded-xl p-6 shadow-sm transition-colors duration-300 ${
           mode === "dark" ? "bg-[#F1F1F1] text-[#2D3A45]" : "bg-white"
-        } lg:w-[80%] mt-5 rounded-lg p-4 shadow-sm`}
+        }`}
       >
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold p-2 flex items-center">
-            Manage Expenses
-            <img className="h-6 ml-2" src={rocket} alt="target icon" />
-          </h2>
-          <span
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-3">
+            <img className="h-7" src={rocket} alt="Target" />
+            <h1 className="text-2xl font-bold">Expense Goals</h1>
+          </div>
+          <button
             onClick={() => setModalOpen(true)}
-            className="flex items-center hover:text-blue-400 hover:border-b-[1px] border-blue-200 cursor-pointer"
+            className="flex items-center text-blue-500 hover:underline"
           >
-            Create expense target
+            Create Expense Target
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -111,162 +96,91 @@ const Goals = () => {
               strokeWidth="20"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="ml-[2px]"
+              className="ml-1"
             >
               <path d="M368 128 L192 304 V368 H256 L432 192 Z" />
               <path d="M352 64 H144 C117.5 64 96 85.5 96 112 v288 c0 26.5 21.5 48 48 48 h224 c26.5 0 48 -21.5 48 -48 V300" />
             </svg>
-          </span>
+          </button>
         </div>
 
-        <div className="h-[1px] w-full bg-gray-200 my-2" />
-
-        {/* Summary Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-6 px-2">
+        {/* Summary Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-10">
           {entry?.expenseTargetAmount && (
-            <div className="bg-gray-100 rounded-xl p-4 shadow-sm text-center">
-              <h4 className="text-gray-600 text-sm font-medium">
-                Expense Target
-              </h4>
-              <p className="text-lg font-bold text-blue-600">
-                ₹{entry.expenseTargetAmount}
-              </p>
-            </div>
+            <SummaryCard title="Expense Target" value={`₹${entry.expenseTargetAmount}`} color="text-blue-600" />
           )}
-
           {entry?.safeExpenseLimit && (
-            <div className="bg-gray-100 rounded-xl p-4 shadow-sm text-center">
-              <h4 className="text-gray-600 text-sm font-medium">Daily Limit</h4>
-              <p className="text-lg font-bold text-green-600">
-                ₹{entry.safeExpenseLimit}
-              </p>
-            </div>
+            <SummaryCard title="Daily Limit" value={`₹${entry.safeExpenseLimit}`} color="text-green-600" />
           )}
-
           {entry?.expense && (
-            <div className="bg-gray-100 rounded-xl p-4 shadow-sm text-center">
-              <h4 className="text-gray-600 text-sm font-medium">
-                Avg Daily Expense
-              </h4>
-              <p className="text-lg font-bold text-yellow-500">
-                ₹{Math.round(totalExpense / entry.totalDaysInMonth)}
-              </p>
-            </div>
+            <SummaryCard
+              title="Avg Daily Expense"
+              value={`₹${Math.round(totalExpense / entry.totalDaysInMonth)}`}
+              color="text-yellow-500"
+            />
           )}
-
           {entry?.expense && (
-            <div className="bg-gray-100 rounded-xl p-4 shadow-sm text-center">
-              <h4 className="text-gray-600 text-sm font-medium">
-                Avg Weekly Expense
-              </h4>
-              <p className="text-lg font-bold text-purple-600">
-                ₹{Math.round(totalExpense / (entry.totalDaysInMonth / 7))}
-              </p>
-            </div>
+            <SummaryCard
+              title="Avg Weekly Expense"
+              value={`₹${Math.round(totalExpense / (entry.totalDaysInMonth / 7))}`}
+              color="text-purple-600"
+            />
           )}
         </div>
 
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold mb-2 p-2 mt-6">
-            Expense Overview - {selectedMonth?.label || currentMonth}
-          </h2>
-          <Select
-            className="mt-4 mr-2"
-            options={monthOptions}
-            value={selectedMonth}
-            onChange={(selectedOption) => setSelectedMonth(selectedOption)}
-            isClearable
-          />
-        </div>
+        {/* Chart */}
+        <div className="mb-5">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold">Expense Overview - {selectedMonth?.label}</h2>
+            <Select
+              className="w-48"
+              options={monthOptions}
+              value={selectedMonth}
+              onChange={setSelectedMonth}
+              isClearable
+            />
+          </div>
 
-        <ResponsiveContainer width="100%" className="mt-2  " height={300}>
-          <BarChart data={chartData}>
-            <XAxis
-              dataKey="date"
-              tick={{ fontSize: 10 }}
-              label={{
-                value: "Days",
-                position: "insideBottom",
-                offset: -2,
-                fontSize: 12,
-                fill: "#374151",
-              }}
-            />
-            <YAxis
-              label={{
-                value: "Amount ($)",
-                angle: -90,
-                position: "insideLeft",
-                offset: 10,
-                fontSize: 12,
-                fill: "#374151",
-              }}
-            />
-            <Tooltip
-              formatter={(value, name, props) => {
-                const total = props.payload?.total ?? 0;
-                const labelMap = {
-                  green: "Within Limit",
-                  red: "Over Limit",
-                };
-                return [`₹${value}`, labelMap[name] || "Total"];
-              }}
-              content={({ active, payload, label }) => {
-                if (active && payload && payload.length) {
-                  const data = payload[0].payload;
-                  return (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={chartData}>
+              <CartesianGrid strokeDasharray="2 2" vertical={false} />
+              <XAxis
+                dataKey="date"
+                tick={{ fontSize: 10 }}
+                label={{ value: "Days", position: "insideBottom", offset: -2, fontSize: 12 }}
+              />
+              <YAxis
+                label={{ value: "Amount (₹)", angle: -90, position: "insideLeft", fontSize: 12 }}
+              />
+              <Tooltip
+                content={({ active, payload, label }) =>
+                  active && payload?.length ? (
                     <div className="bg-white p-2 shadow rounded text-sm text-gray-800">
                       <p>Day: {label}</p>
-                      <p>Total: ₹{data.total}</p>
-                      <p>Within Limit: ₹{data.green}</p>
-                      <p>Over Limit: ₹{data.red}</p>
+                      <p>Total: ₹{payload[0].payload.total}</p>
+                      <p>Within Limit: ₹{payload[0].payload.green}</p>
+                      <p>Over Limit: ₹{payload[0].payload.red}</p>
                     </div>
-                  );
+                  ) : null
                 }
-                return null;
-              }}
-            />
-            {/* <Tooltip
-              formatter={(value, name) => [
-                `₹${value}`,
-                name === "green" ? "Within Limit" : "Over Limit",
-              ]}
-            /> */}
-            <CartesianGrid strokeDasharray="2 2" vertical={false} />
-            <ReferenceLine
-              y={limit}
-              stroke="#6366F1"
-              strokeDasharray="4 4"
-              label={{
-                position: "right",
-                value: `₹${limit} Limit`,
-                fontSize: 12,
-                fill: "#6B7280",
-              }}
-            />
-            <Line
-              type="monotone"
-              dataKey="total"
-              stroke="#FBBF24"
-              strokeWidth={2}
-              dot={{ r: 3 }}
-            />
-            <Bar
-              dataKey="green"
-              stackId="a"
-              fill="#10B981"
-              animationDuration={800}
-              radius={[0, 0, 0, 0]}
-            />
-            <Bar
-              dataKey="red"
-              stackId="a"
-              fill="#EF4444"
-              animationDuration={800}
-              radius={[4, 4, 0, 0]}
-            />
-          </BarChart>
-        </ResponsiveContainer>
+              />
+              <ReferenceLine
+                y={limit}
+                stroke="#6366F1"
+                strokeDasharray="4 4"
+                label={{
+                  position: "right",
+                  value: `₹${limit} Limit`,
+                  fontSize: 12,
+                  fill: "#6B7280",
+                }}
+              />
+              <Line type="monotone" dataKey="total" stroke="#FBBF24" strokeWidth={2} dot={{ r: 3 }} />
+              <Bar dataKey="green" stackId="a" fill="#10B981" />
+              <Bar dataKey="red" stackId="a" fill="#EF4444" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       <CreateExpenseTargetModal
@@ -278,4 +192,12 @@ const Goals = () => {
   );
 };
 
+const SummaryCard = ({ title, value, color }) => (
+  <div className="bg-gray-100 rounded-xl p-4 shadow-sm text-center">
+    <h4 className="text-gray-600 text-sm font-medium">{title}</h4>
+    <p className={`text-lg font-bold ${color}`}>{value}</p>
+  </div>
+);
+
 export default Goals;
+

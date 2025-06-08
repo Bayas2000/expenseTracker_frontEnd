@@ -6,6 +6,7 @@ import ExpenseModal from "./ExpenseModal";
 import AddIcon from "../assets/addIcon.png";
 import useIsLargeScreen from "./hooks/useLargeScreen";
 import { useSelector } from "react-redux";
+import MonthlyExpenseOverview from "./monthlyExpense/MonthlyExpenseOverview";
 
 const Content = () => {
   const dateFilter = useSelector((state) => state.banner?.date_Filter);
@@ -25,15 +26,17 @@ const Content = () => {
 
   return (
     <div className={`relative`}>
+     
       <div className="">
         <Banner />
       </div>
+    
       {loading == true ? (
         <div className="flex justify-center items-center w-full h-40">
           <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid" />
         </div>
       ) : (
-        <div className=" flex gap-x-2 lg:flex-row md:flex-row sm:flex-row  flex-col">
+        <div className=" flex gap-x-2 lg:flex-row md:flex-row sm:flex-row  flex-col ml-2">
           <Expenses
             openAddModal={openAddModal}
             setOpenAddModal={setOpenAddModal}

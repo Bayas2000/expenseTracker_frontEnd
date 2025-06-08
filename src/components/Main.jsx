@@ -17,7 +17,7 @@ const Main = () => {
 
   return (
     <div className="w-[100%] lg:pb-0  pb-[4rem]">
-      <Header />
+      {/* <Header /> */}
       <div
         className={`w-full flex  ${
           mode == "dark" ? "bg-[#1D2730] text-[#F1F1F1]" : "bg-[#f5f6fa]"

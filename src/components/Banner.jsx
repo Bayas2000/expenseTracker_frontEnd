@@ -5,12 +5,17 @@ import Select from "react-select";
 import "../index.css";
 import { DateFilter, LoadBannerDetails } from "../Store/Banner";
 import { FaMoneyBillWave, FaMoneyCheckAlt, FaWallet } from "react-icons/fa";
+import MonthlyExpenseOverview from "./monthlyExpense/MonthlyExpenseOverview";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
   const bannerState = useSelector((state) => state.banner?.banner_list);
   const mode = useSelector((state) => state.theme.mode);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [days, setDays] = React.useState({ value: "today", label: "Today" });
   const [pageRender, setPageRender] = React.useState(false);
 
@@ -44,22 +49,13 @@ const Banner = () => {
 
   return (
     <div className="relative max-w-6xl mx-auto p-6">
-       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
         <div className="flex items-center space-x-4">
           <button
-            className="flex items-center gap-2 bg-gray-600 text-white px-3 py-1 rounded-md hover:bg-gray-700 transition-all mt-1 cursor-pointer"
-            onClick={() => window.history.back()}
+            onClick={() => navigate(-1)}
+            className="text-blue-600 hover:text-blue-800 transition"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="18px"
-              viewBox="0 -960 960 960"
-              width="20px"
-              fill="currentColor"
-            >
-              <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-            </svg>
-            <span className="text-sm font-semibold">Back</span>
+            <ArrowLeft size={22} />
           </button>
 
           <h1
@@ -91,8 +87,12 @@ const Banner = () => {
         />
       </div>
 
+      <div>
+        <MonthlyExpenseOverview />
+      </div>
+
       {/* Stat Panel */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
         {/* Stat Box */}
         {[
           {
@@ -185,64 +185,6 @@ const Banner = () => {
         ))}
       </div>
     </div>
-
-    // <div
-    //   className={`bg-[#2A3A47] h-auto p-4  mt-5 rounded-lg lg:w-[95%]  w-[100%] shadow-sm
-    //   ${mode == "dark" ? "bg-[#2A3A47]" : "bg-white"}
-    //   `}
-    // >
-    //   <div className=" flex items-end justify-end ">
-    //     {/* <input
-    //       className={`w-[150px] border-[1px] border-gray-300 rounded-sm text-sm pl-2 mr-2 h-[38px] ${
-    //         mode === "dark"
-    //           ? "text-white placeholder-white bg-gray-800"
-    //           : "text-black placeholder-gray-500 bg-white"
-    //       }`}
-    //       placeholder="Search the expenses"
-    //     /> */}
-
-    // <div className=" mt-1 ">
-    //   <Select
-    //     className={`rounded-md mr-5 text-sm  text-gray-500 bg-[#f5f6fa]
-    //       ${
-    //         mode == "dark" ? "bg-[#F1F1F1] text-[#2D3A45]" : "bg-[#f5f6fa]"
-    //       }`}
-    //     options={daysOption}
-    //     value={days}
-    //     onChange={(selectedOption) => {
-    //       setDays(selectedOption);
-    //     }}
-    //   />
-    // </div>
-    //   </div>
-    //   {/* <div className="">
-    //     <div
-    //       className={` ${
-    //         mode == "dark" ? "bg-[#F1F1F1] text-[#2D3A45]" : "bg-[#f5f6fa]"
-    //       }  h-[60%] mx-5 mt-4 p-4 rounded-xl`}
-    //     >
-    //       <div className=" flex justify-between">
-    //         <p className=" text-sm font-semibold ">{days?.label} Earnings</p>
-    //         <span className=" text-sm text-green-800 font-semibold">
-    //           {bannerData?.myEarnings || 0}
-    //         </span>
-    //       </div>
-    //       <div className=" flex justify-between mt-2">
-    //         <p className=" text-sm font-semibold">{days?.label} Expense</p>
-    //         <span className=" text-sm  text-red-600 font-semibold">
-    //           {bannerData?.myExpenses || 0}
-    //         </span>
-    //       </div>
-    //       <div className=" h-[1px] bg-gray-300 mt-2" />
-    //       <div className=" flex justify-between mt-1">
-    //         <p className=" text-sm font-semibold">Balance</p>
-    //         <span className=" text-sm  text-blue-600 font-semibold">
-    //           {bannerData?.balance || 0}
-    //         </span>
-    //       </div>
-    //     </div>
-    //   </div> */}
-    // </div>
   );
 };
 

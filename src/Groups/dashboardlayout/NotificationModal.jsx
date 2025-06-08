@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import profileModalIcon from "../../assets/userModal.png";
 import { useDispatch, useSelector } from "react-redux";
-import { ListNotificationDetails, NotificationAnimate } from "../../Store/Groups/header";
+import {
+  ListNotificationDetails,
+  NotificationAnimate,
+} from "../../Store/Groups/header";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 
@@ -66,7 +69,7 @@ const NotificationModal = ({ modalRef }) => {
                   className="w-10 h-10 rounded-full bg-gray-100"
                 />
                 <div className="flex-1">
-                  <p className="text-sm text-gray-700 mb-1">{item.message}</p>
+                  <p className="text-sm text-gray-700 mb-1">{item?.message}</p>
 
                   {item.type === "Invitation" &&
                   item.inviteStatus == "Pending" ? (

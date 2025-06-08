@@ -4,18 +4,28 @@ import { ListGroupsDetails } from "../../Store/Groups/groupsList";
 import api from "../../api/api";
 import Select from "react-select";
 import { toast } from "react-toastify";
+import SimpleReactValidator from "simple-react-validator";
+import { useRef } from "react";
 
 const CreateGroup = ({ showModal, setShowModal }) => {
   const dispatch = useDispatch();
 
   const [groupName, setGroupName] = useState("");
   const [monthlyTarget, setMonthlyTarget] = useState("");
+  const [existTotal, setExistTotal] = useState("");
   const [existingInvestment, setExistingInvestment] = useState(false);
   const [investmentType, setInvestmentType] = useState(null);
   const [quantity, setQuantity] = useState("");
   const [investAmount, setInvestAmount] = useState("");
   const [investDate, setInvestDate] = useState(null);
   const [notes, setNotes] = useState("");
+
+  const validator = useRef(
+    new SimpleReactValidator({
+      autoForceUpdate: { forceUpdate: () => setForceUpdate((prev) => !prev) },
+    })
+  );
+  const [forceUpdate, setForceUpdate] = useState(false); // Needed for forcing re-render on validation
 
   React.useEffect(() => {
     if (!showModal) {
@@ -27,6 +37,7 @@ const CreateGroup = ({ showModal, setShowModal }) => {
       setInvestAmount("");
       setInvestDate(null);
       setNotes("");
+      setExistTotal("");
     }
   }, [showModal]);
 
@@ -38,16 +49,21 @@ const CreateGroup = ({ showModal, setShowModal }) => {
   ];
 
   const handleCreateGroup = () => {
-    if (!groupName || !monthlyTarget) {
-      alert("Please fill in all fields");
+    if (!validator.current.allValid()) {
+      validator.current.showMessages();
+      setForceUpdate((prev) => !prev);
       return;
     }
 
     const payload = {
       groupName,
-      monthlyTarget,
+      monthlyTarget: Number(monthlyTarget),
+      existTotalAmount: Number(existTotal),
       existInvest: existingInvestment,
-      existingInvestment: [
+    };
+
+    if (existingInvestment) {
+      payload.existingInvestment = [
         {
           investmentType: investmentType?.value || "",
           quantity,
@@ -55,9 +71,8 @@ const CreateGroup = ({ showModal, setShowModal }) => {
           investDate,
           notes,
         },
-      ],
-    };
-
+      ];
+    }
     api
       .post("/group/create", payload)
       .then((res) => {
@@ -82,15 +97,17 @@ const CreateGroup = ({ showModal, setShowModal }) => {
   return (
     showModal && (
       <div className="fixed inset-0 z-9999 bg-black/50 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-lg w-full max-w-lg">
-          <h2 className="text-xl font-semibold px-6 py-3">Create Group</h2>
+        <div className="bg-white rounded-lg shadow-lg w-full max-w-lg overflow-y-auto max-h-[90vh] scrollbar-hide">
+          <h2 className="text-xl font-semibold px-6 py-3 sticky top-0 bg-white">
+            Create Group
+          </h2>
           <hr className="pb-3" />
 
           <div className="space-y-2 px-6">
             <div className="grid grid-cols-2 gap-x-4">
               <div>
                 <label className="block text-sm font-medium mb-1">
-                  Group Name
+                  Group Name {""} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -99,11 +116,18 @@ const CreateGroup = ({ showModal, setShowModal }) => {
                   className="w-full border rounded px-3 py-2 text-sm"
                   placeholder="Enter group name"
                 />
+                <div className="text-red-500 text-xs mt-1">
+                  {validator.current.message(
+                    "groupName",
+                    groupName,
+                    "required|string"
+                  )}
+                </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-1">
-                  Monthly Target
+                  Monthly Target {""} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="number"
@@ -112,6 +136,34 @@ const CreateGroup = ({ showModal, setShowModal }) => {
                   className="w-full border rounded px-3 py-2 text-sm"
                   placeholder="Enter monthly target"
                 />
+                <div className="text-red-500 text-xs mt-1">
+                  {validator.current.message(
+                    "monthlyTarget",
+                    monthlyTarget,
+                    "required|numeric"
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-2">
+                <label className="block text-sm font-medium mb-1">
+                  Exist Total Amount {""}{" "}
+                  <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  value={existTotal}
+                  onChange={(e) => setExistTotal(e.target.value)}
+                  className="w-full border rounded px-3 py-2 text-sm"
+                  placeholder="Enter total amount"
+                />
+                <div className="text-red-500 text-xs mt-1">
+                  {validator.current.message(
+                    "existTotal",
+                    existTotal,
+                    "required|numeric"
+                  )}
+                </div>
               </div>
             </div>
 
@@ -145,7 +197,7 @@ const CreateGroup = ({ showModal, setShowModal }) => {
                 Existing Investment Details
               </h3>
 
-              <div className="grid grid-cols-2  gap-4">
+              <div className="grid grid-cols-2  gap-2">
                 <div className="">
                   <label className="block text-sm font-medium mb-1">
                     Investment Type
@@ -203,7 +255,9 @@ const CreateGroup = ({ showModal, setShowModal }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Notes</label>
+                <label className="block text-sm font-medium mb-1 mt-2">
+                  Notes
+                </label>
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
@@ -215,17 +269,22 @@ const CreateGroup = ({ showModal, setShowModal }) => {
             {/* )} */}
           </div>
 
-          <hr className="mt-4" />
-          <div className="flex justify-end gap-2 p-4 px-6">
+          <hr className="mt-2" />
+          <div className="flex justify-end gap-2 p-4 px-6 sticky bottom-0 bg-white">
             <button
               onClick={() => setShowModal(false)}
-              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+              className="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
               onClick={handleCreateGroup}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              disabled={!groupName || !monthlyTarget || !existTotal}
+              className={`px-4 py-1 rounded text-white ${
+                !groupName || !monthlyTarget || !existTotal
+                  ? "bg-blue-300 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
             >
               Create
             </button>

@@ -2,9 +2,14 @@ import React from "react";
 import api from "../api/api";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { ArrowLeft, MessageSquare, Trash2 } from "lucide-react";
 
 const Setting = () => {
   const mode = useSelector((state) => state.theme.mode);
+  const navigate = useNavigate();
+
   const [feedbackModal, setFeedbackModal] = React.useState(false);
   const [feedback, setFeedback] = React.useState("");
   const [deleteModal, setDeleteModal] = React.useState(false);
@@ -31,19 +36,33 @@ const Setting = () => {
     setFeedbackModal(false);
   };
 
-  const cardBase = `rounded-xl shadow-sm  ${
+  const cardBase = `rounded-2xl shadow-md ${
     mode === "dark" ? "bg-[#f1f1f1] text-[#2D3A45]" : "bg-white text-gray-900"
   }`;
 
   return (
-    <div className="lg:w-[80%] w-full px-4 mt-6 space-y-6">
+    <div className="lg:w-[80%] w-full px-4 py-8 mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="text-blue-600 hover:text-blue-800 transition"
+        >
+          <ArrowLeft size={22} />
+        </button>
+        <h1 className="text-2xl font-bold">Settings</h1>
+      </div>
+
       {/* Feedback Section */}
       <div className={`${cardBase} p-5`}>
-        <h2 className="text-lg font-semibold mb-2">Feedback</h2>
+        <div className="flex items-center gap-2 mb-2">
+          <MessageSquare className="text-blue-500" />
+          <h2 className="text-lg font-semibold">Feedback</h2>
+        </div>
         <div className="border-b border-gray-200 mb-3" />
         <p className="text-sm">
-          I would love to hear your thoughts. Let me know if you have any{" "}
-          suggestions or issues with the app. Click{" "}
+          I’d love to hear your thoughts! Let me know if you have any
+          suggestions or issues. Click{" "}
           <span
             className="text-blue-600 cursor-pointer underline"
             onClick={() => setFeedbackModal(true)}
@@ -54,12 +73,15 @@ const Setting = () => {
         </p>
       </div>
 
-      {/* Reset Data Section */}
+      {/* Reset Section */}
       <div className={`${cardBase} p-5`}>
-        <h2 className="text-lg font-semibold mb-2">Reset All Data</h2>
+        <div className="flex items-center gap-2 mb-2">
+          <Trash2 className="text-red-500" />
+          <h2 className="text-lg font-semibold">Reset All Data</h2>
+        </div>
         <div className="border-b border-gray-200 mb-4" />
         <div className="flex justify-between items-center">
-          <p className="text-sm">This will clear all saved transactions.</p>
+          <p className="text-sm">This will delete all saved transactions.</p>
           <button
             onClick={() => setDeleteModal(true)}
             className={`px-4 py-2 rounded-md transition ${
@@ -77,7 +99,7 @@ const Setting = () => {
       {feedbackModal && (
         <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
           <div
-            className={`w-full max-w-md p-5 rounded-xl shadow-lg ${
+            className={`w-full max-w-md p-6 rounded-xl shadow-lg ${
               mode === "dark"
                 ? "bg-gray-800 text-gray-100"
                 : "bg-white text-gray-900"
@@ -124,7 +146,7 @@ const Setting = () => {
       {deleteModal && (
         <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
           <div
-            className={`w-full max-w-sm p-5 rounded-xl shadow-lg ${
+            className={`w-full max-w-sm p-6 rounded-xl shadow-lg ${
               mode === "dark"
                 ? "bg-[#F1F1F1] text-[#2D3A45]"
                 : "bg-white text-gray-900"
@@ -157,4 +179,3 @@ const Setting = () => {
 };
 
 export default Setting;
-

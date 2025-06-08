@@ -5,7 +5,7 @@ import moment from "moment";
 import api from "@/api/api";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { ListGroupRecords } from "@/Store/Groups/groupsList";
+import { ListGroupRecords, ListGroupsDetails } from "@/Store/Groups/groupsList";
 
 const TargetUpdateModal = ({ isOpen, onClose, groupDetails }) => {
   const dispatch = useDispatch();
@@ -23,12 +23,12 @@ const TargetUpdateModal = ({ isOpen, onClose, groupDetails }) => {
       _id: groupDetails[0]?._id,
       newTarget: parseFloat(amount),
     };
-    
+
     try {
       await api.put("/group/update-monthly-target", updatedTarget);
       dispatch(ListGroupRecords(groupDetails[0]?._id));
+      dispatch(ListGroupsDetails(groupDetails[0]?._id));
       toast.info("Target updated successfully");
-      setAmount('')
       onClose();
     } catch (error) {
       console.error("Error updating target:", error);

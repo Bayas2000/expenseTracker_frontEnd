@@ -2,25 +2,6 @@ import React from "react";
 import { FaRegEdit } from "react-icons/fa";
 import TargetUpdateModal from "./TargetUpdateModal";
 
-const summaryCards = [
-  {
-    title: "Balance",
-    value: "₹0",
-  },
-  {
-    title: "Target Amount",
-    value: "₹0",
-  },
-  {
-    title: "Collected Amount",
-    value: "₹0",
-  },
-  {
-    title: "Pending Amount",
-    value: "₹0",
-  },
-];
-
 const SummaryCard = ({ title, value, card, showModal, setShowModal }) => {
   console.log(title, value, "records values");
   console.log(card, "card values");
@@ -63,7 +44,7 @@ const SummaryCardsGrid = ({ recordsDetails, groupDetails }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {recordsDetails.map((card, index) => (
           <SummaryCard
-            key={index}
+            key={card.title}
             title={card.title}
             value={card.value}
             card={card}

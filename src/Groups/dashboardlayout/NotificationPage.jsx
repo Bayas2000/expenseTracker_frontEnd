@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ListNotificationDetails } from "../../Store/Groups/header";
 import profileModalIcon from "../../assets/userModal.png";
+import api from "@/api/api";
 
 const NotificationPage = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,20 @@ const NotificationPage = () => {
   useEffect(() => {
     dispatch(ListNotificationDetails());
   }, [dispatch]);
+
+  const handleResponse = async (item, response) => {
+    const payload = {
+      groupId: item.groupId,
+      inviteResponse: response,
+    };
+
+    try {
+      await api.post("/groupMember/inviteResponse", payload);
+      dispatch(ListNotificationDetails());
+    } catch (error) {
+      console.error("Failed to send response:", error);
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -36,7 +51,9 @@ const NotificationPage = () => {
       </div>
 
       {data.length === 0 ? (
-        <p className="text-gray-500">No notifications available.</p>
+        <p className="text-gray-500 text-center mt-52">
+          No notifications available.
+        </p>
       ) : (
         <div className="space-y-4">
           {data.map((item, index) => (
@@ -51,9 +68,36 @@ const NotificationPage = () => {
               />
               <div>
                 <p className="text-sm text-gray-800">{item.message}</p>
-                <p className="text-xs text-gray-500 mt-1">
+                {/* <p className="text-xs text-gray-500 mt-1">
                   {item.inviteStatus}
-                </p>
+                </p> */}
+                {item.type === "Invitation" &&
+                item.inviteStatus == "Pending" ? (
+                  <div className="flex gap-2 mt-2">
+                    <button
+                      onClick={() => handleResponse(item, "Accepted")}
+                      className="bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded-lg"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleResponse(item, "Rejected")}
+                      className="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded-lg"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                ) : (
+                  <p
+                    className={`${
+                      item.inviteStatus == "Accepted"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    } text-sm`}
+                  >
+                    {item.inviteStatus}
+                  </p>
+                )}
               </div>
             </div>
           ))}
