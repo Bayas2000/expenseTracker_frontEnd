@@ -49,7 +49,7 @@ const Banner = () => {
 
   return (
     <div className="relative max-w-6xl mx-auto p-6">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row justify-between md:items-center items-start mb-6">
         <div className="flex items-center space-x-4">
           <button
             onClick={() => navigate(-1)}
@@ -92,7 +92,7 @@ const Banner = () => {
       </div>
 
       {/* Stat Panel */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+      <div className="grid grid-cols-3 md:grid-cols-3 lg:gap-6 gap-1 mt-4">
         {/* Stat Box */}
         {[
           {
@@ -180,7 +180,9 @@ const Banner = () => {
                 {value ?? 0}
               </p>
             </div>
-            <div className="p-2 rounded-full bg-white shadow">{icon}</div>
+            <div className="p-2 rounded-full bg-white shadow hidden sm:block">
+              {icon}
+            </div>{" "}
           </div>
         ))}
       </div>

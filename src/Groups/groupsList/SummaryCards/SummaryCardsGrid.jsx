@@ -42,23 +42,25 @@ const SummaryCardsGrid = ({ recordsDetails, groupDetails }) => {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {recordsDetails.map((card, index) => (
-          <SummaryCard
-            key={card.title}
-            title={card.title}
-            value={card.value}
-            card={card}
-            showModal={showModal}
-            setShowModal={setShowModal}
-          />
-        ))}
+        {recordsDetails && recordsDetails.length > 0 &&
+          recordsDetails.map((card, index) => (
+            <SummaryCard
+              key={card.title}
+              title={card.title}
+              value={card.value}
+              card={card}
+              showModal={showModal}
+              setShowModal={setShowModal}
+            />
+          ))}
       </div>
-
-      <TargetUpdateModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        groupDetails={groupDetails}
-      />
+      {showModal && (
+        <TargetUpdateModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          groupDetails={groupDetails}
+        />
+      )}
     </>
   );
 };
