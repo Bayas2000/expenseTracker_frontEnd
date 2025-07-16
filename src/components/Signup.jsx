@@ -14,7 +14,7 @@ const SignUp = () => {
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async(e) => {
   const file = e.target.files?.[0];
   console.log(file , 'file');
   
@@ -22,7 +22,7 @@ const SignUp = () => {
     setImage(file);
     const formData = new FormData()
     formData.append('file',file)
-    api.post('/fileUpload/file-upload',formData)
+    await api.post('/fileUpload/file-upload',formData)
     .then((res) => {
       console.log(res.data.data, 'res');
       setPreviewUrl(res.data.data)
