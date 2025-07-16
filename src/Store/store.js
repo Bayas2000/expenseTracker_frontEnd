@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["theme", "Auth" , "groups"], // only persist the theme slice
+  whitelist: ["Auth" , "groups"], // only persist the theme slice
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
