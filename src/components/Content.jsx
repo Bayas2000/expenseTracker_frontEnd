@@ -36,7 +36,7 @@ const Content = () => {
           <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid" />
         </div>
       ) : (
-        <div className=" flex gap-x-2 lg:flex-row flex-row sm:flex-row ml-2">
+        <div className=" flex gap-x-2 lg:flex-row md:flex-row sm:flex-row  flex-col ml-2">
           <Expenses
             openAddModal={openAddModal}
             setOpenAddModal={setOpenAddModal}
