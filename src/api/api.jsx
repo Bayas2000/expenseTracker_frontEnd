@@ -32,7 +32,7 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
 
-// Create Axios instance
+
 const api = axios.create({
     baseURL: 'https://expensetracker-backend-1-npwu.onrender.com/',
     timeout: 25000,
@@ -40,19 +40,17 @@ const api = axios.create({
     withCredentials: true,
 });
 
-// Set token dynamically
 export function setAuthToken(authtoken) {
     api.defaults.headers.common['Authorization'] = authtoken;
 }
 
-// Retry logic for 429 or 5xx
+
 axiosRetry(api, {
-    retries: 3, // number of retries
+    retries: 3,
     retryDelay: (retryCount) => {
-        return retryCount * 1000; // Exponential backoff (1s, 2s, 3s)
+        return retryCount * 1000;
     },
     retryCondition: (error) => {
-        // Retry on 429 or 5xx errors
         return error.response?.status === 429 || error.response?.status >= 500;
     },
 });
