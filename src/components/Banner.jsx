@@ -87,9 +87,9 @@ const Banner = () => {
         />
       </div>
 
-      <div>
+      {/* <div>
         <MonthlyExpenseOverview />
-      </div>
+      </div> */}
 
       {/* Stat Panel */}
       <div className="grid grid-cols-3 md:grid-cols-3 lg:gap-6 gap-1 mt-4">
