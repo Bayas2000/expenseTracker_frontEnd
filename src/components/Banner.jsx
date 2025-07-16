@@ -47,6 +47,69 @@ const Banner = () => {
     { value: "thisYear", label: "This Year" },
   ];
 
+  const statCards = [
+    {
+      label: `${days?.label} Earnings`,
+      value: bannerData?.myEarnings,
+      color: "green",
+      icon: (
+        <svg
+          className="w-6 h-6 text-green-500"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 8c-1.105 0-2 .672-2 1.5s.895 1.5 2 1.5 2-.672 2-1.5-.895-1.5-2-1.5z M12 13v2m8 2a9.956 9.956 0 01-6 1.944A9.956 9.956 0 014 17V7a9.956 9.956 0 016-1.944A9.956 9.956 0 0120 7v10z"
+          />
+        </svg>
+      ),
+    },
+    {
+      label: `${days?.label} Expenses`,
+      value: bannerData?.myExpenses,
+      color: "red",
+      icon: (
+        <svg
+          className="w-6 h-6 text-red-500"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 8v4m0 4h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12s4.03 9 9 9 9-4.03 9-9z"
+          />
+        </svg>
+      ),
+    },
+    {
+      label: `Balance`,
+      value: bannerData?.balance,
+      color: "blue",
+      icon: (
+        <svg
+          className="w-6 h-6 text-blue-500"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      ),
+    },
+  ];
+
   return (
     <div className="relative max-w-6xl mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between md:items-center items-start mb-6">
@@ -61,7 +124,7 @@ const Banner = () => {
           <h1
             className={`${
               mode === "dark" ? "text-white" : "text-gray-800"
-            } text-3xl font-extrabold tracking-tight`}
+            } text-3xl font-extrabold tracking-tight whitespace-nowrap`}
           >
             Financial Summary
           </h1>
@@ -91,100 +154,100 @@ const Banner = () => {
         <MonthlyExpenseOverview />
       </div> */}
 
-      {/* Stat Panel */}
-      <div className="grid grid-cols-3 md:grid-cols-3 lg:gap-6 gap-1 mt-4">
-        {/* Stat Box */}
-        {[
-          {
-            label: `${days?.label} Earnings`,
-            value: bannerData?.myEarnings,
-            color: "green",
-            icon: (
-              <svg
-                className="w-6 h-6 text-green-500"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 8c-1.105 0-2 .672-2 1.5s.895 1.5 2 1.5 2-.672 2-1.5-.895-1.5-2-1.5z M12 13v2m8 2a9.956 9.956 0 01-6 1.944A9.956 9.956 0 014 17V7a9.956 9.956 0 016-1.944A9.956 9.956 0 0120 7v10z"
-                />
-              </svg>
-            ),
-          },
-          {
-            label: `${days?.label} Expenses`,
-            value: bannerData?.myExpenses,
-            color: "red",
-            icon: (
-              <svg
-                className="w-6 h-6 text-red-500"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 8v4m0 4h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12s4.03 9 9 9 9-4.03 9-9z"
-                />
-              </svg>
-            ),
-          },
-          {
-            label: `Balance`,
-            value: bannerData?.balance,
-            color: "blue",
-            icon: (
-              <svg
-                className="w-6 h-6 text-blue-500"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            ),
-          },
-        ].map(({ label, value, color, icon }, idx) => (
-          <div
-            key={idx}
-            className={`${
-              mode == "dark" ? "bg-[#f5f6fa] text-[#2D3A45]" : "bg-white/70"
-            }  backdrop-blur-md border ${
-              color === "green"
-                ? "border-green-200"
-                : color === "red"
-                ? "border-red-200"
-                : "border-blue-200"
-            } shadow-lg rounded-xl p-5 flex items-center justify-between`}
-          >
-            <div>
-              <p
-                className={`text-sm  ${
-                  mode == "dark" ? " text-black" : "text-gray-500"
-                }`}
-              >
-                {label}
-              </p>
-              <p className={`text-2xl font-bold text-${color}-600`}>
-                {value ?? 0}
-              </p>
+      <div className="mt-4">
+        <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible pb-2 scrollbar-hide">
+          {[
+            {
+              label: `${days?.label} Earnings`,
+              value: bannerData?.myEarnings,
+              color: "green",
+              icon: (
+                <svg
+                  className="w-6 h-6 text-green-500"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 8c-1.105 0-2 .672-2 1.5s.895 1.5 2 1.5 2-.672 2-1.5-.895-1.5-2-1.5z M12 13v2m8 2a9.956 9.956 0 01-6 1.944A9.956 9.956 0 014 17V7a9.956 9.956 0 016-1.944A9.956 9.956 0 0120 7v10z"
+                  />
+                </svg>
+              ),
+            },
+            {
+              label: `${days?.label} Expenses`,
+              value: bannerData?.myExpenses,
+              color: "red",
+              icon: (
+                <svg
+                  className="w-6 h-6 text-red-500"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 8v4m0 4h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12s4.03 9 9 9 9-4.03 9-9z"
+                  />
+                </svg>
+              ),
+            },
+            {
+              label: `Balance`,
+              value: bannerData?.balance,
+              color: "blue",
+              icon: (
+                <svg
+                  className="w-6 h-6 text-blue-500"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              ),
+            },
+          ].map(({ label, value, color, icon }, idx) => (
+            <div
+              key={idx}
+              className={`min-w-[220px] md:min-w-0 ${
+                mode === "dark" ? "bg-[#f5f6fa] text-[#2D3A45]" : "bg-white/70"
+              } border ${
+                color === "green"
+                  ? "border-green-200"
+                  : color === "red"
+                  ? "border-red-200"
+                  : "border-blue-200"
+              } shadow-lg rounded-xl p-4 flex justify-between items-center`}
+            >
+              <div>
+                <p
+                  className={`text-sm ${
+                    mode === "dark" ? "text-black" : "text-gray-500"
+                  }`}
+                >
+                  {label}
+                </p>
+                <p className={`text-2xl font-bold text-${color}-600`}>
+                  {value ?? 0}
+                </p>
+              </div>
+              <div className="p-2 rounded-full bg-white shadow hidden md:block">
+                {icon}
+              </div>
             </div>
-            <div className="p-2 rounded-full bg-white shadow hidden sm:block">
-              {icon}
-            </div>{" "}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
