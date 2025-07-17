@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../Store/AuthSlice";
 import useLogout from "./custom_hooks/useLogout";
-
 import { ArrowLeft, Mail, Calendar, UserCircle } from "lucide-react";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 const Profile = () => {
   const mode = useSelector((state) => state.theme.mode);
@@ -18,8 +19,10 @@ const Profile = () => {
   const [profile, setProfile] = React.useState({
     userName: "",
     emailId: "",
+    profileImage: "",
     createdAt: "",
   });
+  const [showPreview, setShowPreview] = React.useState(false);
 
   React.useEffect(() => {
     api
@@ -52,9 +55,23 @@ const Profile = () => {
 
       {/* Profile Card */}
       <div className={`rounded-2xl shadow-md ${containerStyle} mb-6`}>
-        <div className="flex flex-col md:flex-row items-center gap-6 p-6 border-b border-gray-200">
-          <UserCircle className="w-20 h-20 text-gray-400" />
-          <div className="text-center md:text-left">
+        <div className="flex flex-row items-center gap-6 p-6 border-b border-gray-200">
+          {profile.profileImage ? (
+            <img
+              className="w-20 h-20 object-cover border border-blue-400 bg-blue-300 rounded-full"
+              src={profile?.profileImage}
+              alt="Profile"
+              style={{
+                width: "80px",
+                height: "80px",
+                imageRendering: "crisp-edges",
+              }}
+              onClick={() => setShowPreview(true)}
+            />
+          ) : (
+            <UserCircle className="w-20 h-20 text-gray-400" />
+          )}
+          <div className="text-left">
             <h2 className="text-xl font-semibold">{profile.userName}</h2>
             <div className="flex items-center justify-center md:justify-start text-sm text-gray-500 mt-1">
               <Mail className="w-4 h-4 mr-2" />
@@ -86,9 +103,19 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      {showPreview && (
+        <Lightbox
+          open={showPreview}
+          close={() => setShowPreview(false)}
+          slides={[
+            {
+              src: profile?.profileImage,
+            },
+          ]}
+        />
+      )}
     </div>
   );
 };
 
 export default Profile;
-
