@@ -71,25 +71,7 @@ const Main = () => {
           </div>
         ) : null}
       </div>
-      {/* <div className=" bg-blue-300 w-[100%]">
-      {state == "home" ? (
-          <div className={` ${!isLargeScreen ? "w-[100%]" : ""}`}>
-            <Content />
-          </div>
-        ) : state == "stats" ? (
-          <div className="">
-            <Stats />
-          </div>
-        ) : state == "profile" ? (
-          <div className=" ">
-            <Profile />
-          </div>
-        ) : state == "setting" ? (
-          <div className=" ">
-            <Setting />
-          </div>
-        ) : null}
-      </div> */}
+      
       {!isLargeScreen && (
         <div className=" w-[100%]  flex justify-center fixed bottom-0 left-0 z-50">
           <BottomBar />
