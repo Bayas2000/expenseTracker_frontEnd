@@ -228,11 +228,11 @@ const ExpenseAdd = ({ setOpenAddModal, openAddModal }) => {
             }}
           />
         </div>
-        <div className="flex flex-col justify-start">
+        <div className="w-full flex flex-col justify-start">
           <span className=" text-sm ">Transaction Date</span>
           <input
             type="date"
-            className=" p-2 border border-gray-300  rounded-sm mt-2 h-[38px]   "
+            className=" p-2 border border-gray-300  rounded-sm mt-2 h-[38px] min-w-[200px] text-sm   "
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />

@@ -34,8 +34,8 @@ import axiosRetry from "axios-retry";
 
 
 const api = axios.create({
-    baseURL: 'https://expensetracker-backend-1-npwu.onrender.com/',
-    // baseURL: 'http://localhost:8070',
+    // baseURL: 'https://expensetracker-backend-1-npwu.onrender.com/',
+    baseURL: 'http://localhost:8070',
     timeout: 25000,
     headers: { Accept: 'application/json' },
     withCredentials: true,
