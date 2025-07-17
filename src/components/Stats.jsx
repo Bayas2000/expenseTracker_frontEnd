@@ -64,7 +64,7 @@ const Stats = () => {
   };
 
   return (
-    <div className="lg:w-[80%] max-w-[850px] mx-auto mt-8">
+    <div className="lg:w-[80%] max-w-[850px] mx-auto mt-8 p-4">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">

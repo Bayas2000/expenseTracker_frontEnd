@@ -7,12 +7,13 @@ const months = [
 
 const CreateExpenseTargetModal = ({ isOpen, onClose, onSubmit }) => {
   const [amount, setAmount] = useState("");
-  const [month, setMonth] = useState("May");
+  const [month, setMonth] = useState(months[new Date().getMonth()]);
   const [year, setYear] = useState(new Date().getFullYear());
 
   const handleSubmit = () => {
     if (!amount || !month || !year) return;
     onSubmit({ budgetAmount: Number(amount), month, year });
+    setAmount('')
     onClose();
   };
 
