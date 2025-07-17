@@ -20,7 +20,7 @@ const CreateExpenseTargetModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 bg-opacity-30 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-black/50 bg-opacity-30 flex items-center justify-center px-4">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
         <h2 className="text-lg font-semibold mb-4">Create Expense Target</h2>
 

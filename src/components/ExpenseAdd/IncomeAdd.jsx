@@ -204,7 +204,7 @@ const IncomeAdd = ({ setOpenAddModal, setActiveTab }) => {
 
   return (
     <div className="px-4">
-      <div className=" gap-2 mt-4 grid grid-cols-2">
+      <div className=" gap-2 mt-4 grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 lg:p-0 sm:p-2">
         <div className="flex flex-col justify-start">
           <span className=" text-sm ">Category</span>
           <Select
@@ -221,16 +221,16 @@ const IncomeAdd = ({ setOpenAddModal, setActiveTab }) => {
             }}
           />
         </div>
-        <div className="flex flex-col justify-start">
+        <div className=" w-full flex flex-col justify-start">
           <span className=" text-sm  ">Transaction Date</span>
           <input
             type="date"
-            className=" p-2 border border-gray-300  rounded-sm mt-2 h-[38px]   "
+            className=" p-2 border border-gray-300  rounded-sm mt-2 h-[38px] min-w-[200px] text-sm "
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
-        <div className=" -mt-1">
+        <div className="flex flex-col justify-start">
           <span className=" text-sm  ">Amount</span>
           <input
             type="number"
