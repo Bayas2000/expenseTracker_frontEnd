@@ -5,10 +5,14 @@ import Income from "./Income";
 import ExpenseModal from "./ExpenseModal";
 import AddIcon from "../assets/addIcon.png";
 import useIsLargeScreen from "./hooks/useLargeScreen";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MonthlyExpenseOverview from "./monthlyExpense/MonthlyExpenseOverview";
 import Recurring from "./Recurring/Recurring";
 import RecurringModal from "./Recurring/RecurringModal";
+import { LoadRecurring } from "@/Store/Banner";
+import api from "@/api/api";
+import AddRecurringExpenseModal from "./goals/RecurringModal";
+import { toast } from "react-toastify";
 
 const Content = () => {
   const dateFilter = useSelector((state) => state.banner?.date_Filter);
@@ -19,6 +23,9 @@ const Content = () => {
   const [activeButton, setActiveButton] = React.useState("daily");
   const [loading, setLoading] = React.useState(false);
 
+    const dispatch = useDispatch();
+
+
   React.useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -27,6 +34,18 @@ const Content = () => {
   }, [dateFilter]);
 
   const isLargeScreen = useIsLargeScreen();
+
+  const handleAddRecurring = async (data) => {
+    try {
+      await api.post("/recurring/create", data);
+      dispatch(LoadRecurring());
+      toast.success("Recurring expense added successfully");
+    } catch (err) {
+      toast.error("Failed to add recurring expense " , err);
+      console.log(err , 'err');
+      
+    }
+  };
 
   return (
     <div className={`relative`}>
@@ -85,7 +104,9 @@ const Content = () => {
           />
         </div>
       ) : (
-        <Recurring />
+        <Recurring 
+         setOpenRecurringModal ={setOpenRecurringModal}
+         />
       )}
 
       <div
@@ -119,9 +140,10 @@ const Content = () => {
 
       {openRecurringModal && (
         <div className="position-fixed  top-15 left-[16%] absolute ">
-          <RecurringModal
-            openRecurringModal={openRecurringModal}
-            setOpenRecurringModal={setOpenRecurringModal}
+          <AddRecurringExpenseModal
+            isOpen={openRecurringModal}
+            onClose={() => setOpenRecurringModal(false)}
+            onSubmit={handleAddRecurring}
           />
         </div>
       )}

@@ -40,6 +40,9 @@ const BannerSlice = createSlice({
     ClearIncomeModalData: (state, action) => {
       state.Income_Modal_List = [];
     },
+    ClearRecurringModalData: (state, action) => {
+      state.Recurring_List = [];
+    },
   },
 });
 
@@ -53,6 +56,7 @@ export const {
   ClearExpenseModalData,
   ClearIncomeModalData,
   ListRecurring,
+  ClearRecurringModalData
 } = BannerSlice.actions;
 
 export const LoadBannerDetails = (searchValue) => async (dispatch) => {
@@ -100,13 +104,8 @@ export const LoadIncome = (searchValue) => async (dispatch) => {
 };
 
 export const LoadRecurring = (searchValue) => async (dispatch) => {
-  const payload = {
-    dateFilter: searchValue,
-  };
   try {
-    const response = await api.get("/", {
-      params: payload,
-    });
+    const response = await api.get("/recurring/get-all-data");
     const data = response.data.data;
     dispatch(ListRecurring(data));
   } catch (error) {

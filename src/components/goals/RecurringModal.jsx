@@ -1,10 +1,34 @@
+import api from "@/api/api";
+import { ClearRecurringModalData, LoadRecurring } from "@/Store/Banner";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const AddRecurringExpenseModal = ({ isOpen, onClose, onSubmit }) => {
+  // const dispatch = useDispatch();
+
+  // React.useEffect(() => {
+  //   dispatch(LoadRecurring());
+  // }, []);
+
+  const recurring = useSelector((state) => state.banner);
+  const { Recurring_List = [] } = recurring;
+
+  const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [notes, setNotes] = useState("");
+
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    setId(Recurring_List?._id || "");
+    setTitle(Recurring_List?.title || "");
+    setAmount(Recurring_List?.amount?.toString() || "");
+    setDueDate(Recurring_List?.dueDate?.substring(0, 10) || "");
+    setNotes(Recurring_List?.notes || "");
+  }, [Recurring_List]);
 
   const handleSubmit = () => {
     if (!title || !amount || !dueDate) return;
@@ -12,13 +36,38 @@ const AddRecurringExpenseModal = ({ isOpen, onClose, onSubmit }) => {
       title,
       amount: Number(amount),
       dueDate,
-      notes
+      notes,
     });
     setTitle("");
     setAmount("");
     setDueDate("");
     setNotes("");
     onClose();
+  };
+
+  const handleUpdate = () => {
+    const payload = {
+      _id: id,
+      title: title,
+      amount: amount,
+      dueDate: dueDate,
+    };
+    if (notes) {
+      payload.notes = notes;
+    }
+
+    api
+      .put("/recurring/update", payload)
+      .then((res) => {
+        dispatch(LoadRecurring());
+        dispatch(ClearRecurringModalData());
+        toast.info("Records updated successfully");
+        onClose();
+      })
+      .catch((error) => {
+        toast.error(error.response || "Something went wrong");
+        console.log(error, "error");
+      });
   };
 
   if (!isOpen) return null;
@@ -77,11 +126,16 @@ const AddRecurringExpenseModal = ({ isOpen, onClose, onSubmit }) => {
           >
             Cancel
           </button>
+
           <button
-            onClick={handleSubmit}
+            onClick={
+              Recurring_List && Recurring_List?._id
+                ? handleUpdate
+                : handleSubmit
+            }
             className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700"
           >
-            Save
+            Submit
           </button>
         </div>
       </div>
