@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import api from "../api/api";
 import { useSelector } from "react-redux";
@@ -13,11 +12,10 @@ const Stats = () => {
   const [savingsRate, setSavingsRate] = useState(0);
   const [totalSpend, setTotalSpend] = useState(0);
   const [topCategories, setTopCategories] = useState([]);
-  const [filterType, setFilterType] = useState("thisWeek");
+  const [filterType, setFilterType] = useState("thisMonth");
   const [isLoadingHealth, setIsLoadingHealth] = useState(false);
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
-    const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   const filterMap = [
     { label: "Weekly", value: "thisWeek" },
@@ -64,45 +62,48 @@ const Stats = () => {
   };
 
   return (
-    <div className="lg:w-[80%] max-w-[850px] mx-auto mt-8 p-4">
+    <div className="lg:w-[80%] max-w-[850px] mx-auto  p-4">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate(-1)}
-            className="text-blue-600 hover:text-blue-800 transition"
-          >
-            <ArrowLeft size={22} />
-          </button>
-          <h1 className="text-3xl font-bold text-gray-800">Financial Stats</h1>
-        </div>
-      </div>
-
-      {/* Total Spend */}
       <div
-        className={`rounded-xl shadow-md p-5 mb-6 transition-all ${
-          mode === "dark" ? "bg-[#F1F1F1]" : "bg-white"
-        }`}
+        className={`sticky top-0 z-10 bg-white dark:bg-[#1D2730] rounded-xl shadow-md px-5 py-4 mb-6 transition-all`}
       >
-        <h2 className="text-2xl font-bold text-red-600">{totalSpend}</h2>
-        <p className="text-sm text-gray-500 mt-1">Total Spend</p>
-
-        <div layout className="flex gap-3 mt-4">
-          {filterMap.map(({ label, value }) => (
+        <div className="flex justify-between items-center flex-wrap gap-4">
+          {/* Back button and title */}
+          <div className="flex items-center gap-3">
             <button
-              key={value}
-              layout
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setFilterType(value)}
-              className={`px-3 py-1 rounded-full text-sm font-medium transition ${
-                filterType === value
-                  ? "bg-blue-600 text-white"
-                  : "bg-blue-100 text-blue-800"
-              }`}
+              onClick={() => navigate(-1)}
+              className="text-blue-600 hover:text-blue-800 transition"
             >
-              {label}
+              <ArrowLeft size={22} />
             </button>
-          ))}
+            <motion.h1
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white"
+            >
+              Financial Stats
+            </motion.h1>
+          </div>
+
+          {/* Filter options */}
+          <div className="flex gap-2">
+            {filterMap.map(({ label, value }) => (
+              <motion.button
+                key={value}
+                layout
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setFilterType(value)}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                  filterType === value
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                }`}
+              >
+                {label}
+              </motion.button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -224,9 +225,3 @@ const Stats = () => {
 };
 
 export default Stats;
-
-const Spinner = () => (
-  <div className="flex justify-center items-center py-4">
-    <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-  </div>
-);

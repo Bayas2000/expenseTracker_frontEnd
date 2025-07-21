@@ -7,12 +7,16 @@ import AddIcon from "../assets/addIcon.png";
 import useIsLargeScreen from "./hooks/useLargeScreen";
 import { useSelector } from "react-redux";
 import MonthlyExpenseOverview from "./monthlyExpense/MonthlyExpenseOverview";
+import Recurring from "./Recurring/Recurring";
+import RecurringModal from "./Recurring/RecurringModal";
 
 const Content = () => {
   const dateFilter = useSelector((state) => state.banner?.date_Filter);
 
   const [openAddModal, setOpenAddModal] = React.useState(false);
+  const [openRecurringModal, setOpenRecurringModal] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("expense");
+  const [activeButton, setActiveButton] = React.useState("daily");
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
@@ -26,16 +30,48 @@ const Content = () => {
 
   return (
     <div className={`relative`}>
-     
       <div className="">
         <Banner />
       </div>
-    
+
+      <div className="flex justify-center items-center w-full pt-4 px-4 gap-0">
+        <button
+          onClick={() => {
+            setActiveButton("daily");
+            setOpenRecurringModal(false);
+          }}
+          className={`sm:w-56  w-[100%] py-2 px-4 font-semibold text-sm rounded-l-full border border-gray-300 
+      transition-all duration-200 focus:outline-none 
+      ${
+        activeButton === "daily"
+          ? "bg-blue-500 text-white shadow-md"
+          : "bg-white text-gray-700 hover:bg-gray-100"
+      }`}
+        >
+          Daily
+        </button>
+        <button
+          onClick={() => {
+            setActiveButton("recurring");
+            // setOpenRecurringModal(true);
+          }}
+          className={`sm:w-56  w-[100%] py-2 px-4 font-semibold text-sm rounded-r-full border border-gray-300 border-l-0
+      transition-all duration-200 focus:outline-none 
+      ${
+        activeButton === "recurring"
+          ? "bg-blue-500 text-white shadow-md"
+          : "bg-white text-gray-700 hover:bg-gray-100"
+      }`}
+        >
+          Recurring
+        </button>
+      </div>
+
       {loading == true ? (
         <div className="flex justify-center items-center w-full h-40">
           <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid" />
         </div>
-      ) : (
+      ) : activeButton === "daily" ? (
         <div className=" flex gap-x-2 lg:flex-row md:flex-row sm:flex-row  flex-col ml-2">
           <Expenses
             openAddModal={openAddModal}
@@ -48,19 +84,19 @@ const Content = () => {
             setActiveTab={setActiveTab}
           />
         </div>
+      ) : (
+        <Recurring />
       )}
 
-      {/* <div
-        className=" lg:w-[77%] flex justify-center fixed top-75  right-20 lg:ml-[5%] mt-[14%]"
-        onClick={() => setOpenAddModal(!openAddModal)}
-      >
-        <img className="w-15 sticky top-0 " src={AddIcon} alt="Add Icon" />
-      </div> */}
       <div
-        className="fixed lg:bottom-6 md:bottom-20 sm:bottom-22 bottom-25    right-6 z-50 cursor-pointer"
+        className="fixed lg:bottom-6 md:bottom-20 sm:bottom-22 bottom-25 right-6 z-50 cursor-pointer"
         onClick={() => {
-          setOpenAddModal(!openAddModal);
-          setActiveTab("expense");
+          if (activeButton == "daily") {
+            setOpenAddModal(!openAddModal);
+            setActiveTab("expense");
+          } else if (activeButton == "recurring") {
+            setOpenRecurringModal(true);
+          }
         }}
       >
         <img
@@ -69,13 +105,23 @@ const Content = () => {
           alt="Add Icon"
         />
       </div>
-      {openAddModal && (
+
+      {openAddModal && !openRecurringModal && (
         <div className="position-fixed  top-15 left-[16%] absolute ">
           <ExpenseModal
             openAddModal={openAddModal}
             setOpenAddModal={setOpenAddModal}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+          />
+        </div>
+      )}
+
+      {openRecurringModal && (
+        <div className="position-fixed  top-15 left-[16%] absolute ">
+          <RecurringModal
+            openRecurringModal={openRecurringModal}
+            setOpenRecurringModal={setOpenRecurringModal}
           />
         </div>
       )}

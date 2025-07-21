@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
 import { toast } from "react-toastify";
+import { FaTrashAlt } from "react-icons/fa";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -14,27 +15,28 @@ const SignUp = () => {
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  const handleImageChange = async(e) => {
-  const file = e.target.files?.[0];
-  console.log(file , 'file');
-  
-  if (file) {
-    setImage(file);
-    const formData = new FormData()
-    formData.append('file',file)
-    await api.post('/fileUpload/file-upload',formData)
-    .then((res) => {
-      console.log(res.data.data, 'res');
-      setPreviewUrl(res.data.data)
-      toast.success('Image uploaded successfully')
-    })
-    .catch((error) => {
-      toast.error('something went wrong')
-    })
-  }
-};
+  const handleImageChange = async (e) => {
+    const file = e.target.files?.[0];
+    console.log(file, "file");
 
-const handleSubmit = async (e) => {
+    if (file) {
+      setImage(file);
+      const formData = new FormData();
+      formData.append("file", file);
+      await api
+        .post("/fileUpload/file-upload", formData)
+        .then((res) => {
+          console.log(res.data.data, "res");
+          setPreviewUrl(res.data.data);
+          toast.success("Image uploaded successfully");
+        })
+        .catch((error) => {
+          toast.error("something went wrong");
+        });
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Basic validation
     if (!username.trim() || !email.trim() || !password || !confirmPassword) {
@@ -48,13 +50,25 @@ const handleSubmit = async (e) => {
     setError("");
 
     try {
-      const payload = { userName: username.trim(), emailId: email.trim(), password , profileImage:previewUrl };
-      const res = await api.post('/userAuth/signup', payload);
+      const payload = {
+        userName: username.trim(),
+        emailId: email.trim(),
+        password,
+        profileImage: previewUrl,
+      };
+      const cleanedPayload = Object.fromEntries(
+        Object.entries(payload).filter(
+          ([_, value]) => value !== "" && value !== null && value !== undefined
+        )
+      );
+      await api.post("/userAuth/signup", cleanedPayload);
       setSuccess("Registration successful! Redirecting to login...");
-      setTimeout(() => navigate('/login'), 1500);
+      setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || 'Signup failed. Please try again.');
+      setError(
+        err.response?.data?.message || "Signup failed. Please try again."
+      );
     }
   };
 
@@ -62,7 +76,6 @@ const handleSubmit = async (e) => {
     <div className="min-h-screen flex items-center justify-center ">
       <img
         className="absolute inset-0 w-full h-full object-cover"
-        
         src="https://images.pexels.com/photos/15307542/pexels-photo-15307542/free-photo-of-close-up-of-a-blue-fabric-surface.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         alt="Finance Background"
       />
@@ -73,97 +86,127 @@ const handleSubmit = async (e) => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3  ">
-          {error && <div className="text-red-500 text-sm text-center" role="alert">{error}</div>}
-          {success && <div className="text-green-600 text-sm text-center">{success}</div>}
-          <div className='grid grid-cols-2 space-x-3 space-y-3'>
+          {error && (
+            <div className="text-red-500 text-sm text-center" role="alert">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="text-green-600 text-sm text-center">{success}</div>
+          )}
+          <div className="grid grid-cols-2 space-x-3 space-y-3">
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
+                placeholder="Choose a username"
+              />
+            </div>
 
-          <div >
-            <label htmlFor="username" className="block text-gray-700 font-medium mb-1">
-              Username
-            </label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
-              placeholder="Choose a username"
-            />
-          </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
+                placeholder="you@example.com"
+              />
+            </div>
 
-          <div>
-            <label htmlFor="email" className="block text-gray-700 font-medium mb-1">
-              Email Address
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
-              placeholder="you@example.com"
-            />
-          </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
+                placeholder="********"
+              />
+            </div>
 
-          <div>
-            <label htmlFor="password" className="block text-gray-700 font-medium mb-1">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
-              placeholder="********"
-            />
-          </div>
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
+                placeholder="Re-enter your password"
+              />
+            </div>
+            <div className="max-w-[245px]">
+              <label className="block text-gray-700 font-medium mb-1">
+                Upload Image
+              </label>
 
-          <div>
-            <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-1">
-              Confirm Password
-            </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 transition"
-              placeholder="Re-enter your password"
-            />
-          </div>
-          <div className="max-w-[245px]">
-      <label className="block text-gray-700 font-medium mb-1">
-        Upload Image
-      </label>
+              <label
+                htmlFor="fileUpload"
+                className="flex items-center justify-center w-full px-4 py-2 border border-dashed border-gray-400 rounded-lg cursor-pointer bg-gray-100 hover:bg-gray-200 transition text-sm text-gray-600"
+              >
+                {image ? "Change Image" : "Click to upload image"}
+              </label>
 
-      <label
-        htmlFor="fileUpload"
-        className="flex items-center justify-center w-full px-4 py-2 border border-dashed border-gray-400 rounded-lg cursor-pointer bg-gray-100 hover:bg-gray-200 transition text-sm text-gray-600"
-      >
-        {image ? 'Change Image' : 'Click to upload image'}
-      </label>
+              <input
+                id="fileUpload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+              />
 
-      <input
-        id="fileUpload"
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        className="hidden"
-      />
-
-      {previewUrl && (
-        <img
-          src={previewUrl}
-          alt="Preview"
-          className="mt-3 rounded-lg w-16 h-16 object-cover "
-        />
-      )}
-    </div>
+              {previewUrl && (
+                <div className="mt-3 relative w-fit">
+                  <img
+                    src={previewUrl}
+                    alt="Preview"
+                    className="rounded-lg w-16 h-16 object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImage(null);
+                      setPreviewUrl(null);
+                      toast.info("Image removed");
+                    }}
+                    className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white p-1 rounded-full shadow"
+                  >
+                    <FaTrashAlt size={12} />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
           <button
             type="submit"
@@ -174,8 +217,11 @@ const handleSubmit = async (e) => {
         </form>
 
         <p className="text-center text-gray-600 text-sm mt-6">
-          Already have an account?{' '}
-          <button onClick={() => navigate('/')} className="text-blue-600 font-medium hover:underline">
+          Already have an account?{" "}
+          <button
+            onClick={() => navigate("/")}
+            className="text-blue-600 font-medium hover:underline"
+          >
             Sign in
           </button>
         </p>
