@@ -10,6 +10,7 @@ const BannerSlice = createSlice({
     Income_List: [],
     Expense_Modal_List: [],
     Income_Modal_List: [],
+    Recurring_List: [],
   },
   reducers: {
     Listbanner: (state, action) => {
@@ -30,11 +31,17 @@ const BannerSlice = createSlice({
     ListIncome: (state, action) => {
       state.Income_List = action.payload;
     },
+    ListRecurring: (state, action) => {
+      state.Recurring_List = action.payload;
+    },
     ListIncomeModalData: (state, action) => {
       state.Income_Modal_List = action.payload;
     },
     ClearIncomeModalData: (state, action) => {
       state.Income_Modal_List = [];
+    },
+    ClearRecurringModalData: (state, action) => {
+      state.Recurring_List = [];
     },
   },
 });
@@ -48,6 +55,8 @@ export const {
   ListIncomeModalData,
   ClearExpenseModalData,
   ClearIncomeModalData,
+  ListRecurring,
+  ClearRecurringModalData
 } = BannerSlice.actions;
 
 export const LoadBannerDetails = (searchValue) => async (dispatch) => {
@@ -89,6 +98,16 @@ export const LoadIncome = (searchValue) => async (dispatch) => {
     });
     const data = response.data.data.filter((data) => data.type == "Income");
     dispatch(ListIncome(data));
+  } catch (error) {
+    throw new Error();
+  }
+};
+
+export const LoadRecurring = (searchValue) => async (dispatch) => {
+  try {
+    const response = await api.get("/recurring/get-all-data");
+    const data = response.data.data;
+    dispatch(ListRecurring(data));
   } catch (error) {
     throw new Error();
   }

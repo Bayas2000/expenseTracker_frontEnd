@@ -3,6 +3,7 @@ import api from "../api/api";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import { ArrowLeft, MessageSquare, Trash2 } from "lucide-react";
 
@@ -42,35 +43,43 @@ const Setting = () => {
 
   return (
     <div className="lg:w-[80%] w-full px-4 py-8 mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-blue-600 hover:text-blue-800 transition"
-        >
-          <ArrowLeft size={22} />
-        </button>
-        <h1 className="text-2xl font-bold">Settings</h1>
-      </div>
-
-      {/* Feedback Section */}
-      <div className={`${cardBase} p-5`}>
-        <div className="flex items-center gap-2 mb-2">
-          <MessageSquare className="text-blue-500" />
-          <h2 className="text-lg font-semibold">Feedback</h2>
-        </div>
-        <div className="border-b border-gray-200 mb-3" />
-        <p className="text-sm">
-          I’d love to hear your thoughts! Let me know if you have any
-          suggestions or issues. Click{" "}
-          <span
-            className="text-blue-600 cursor-pointer underline"
-            onClick={() => setFeedbackModal(true)}
+      {/* Top Settings Card with Header inside */}
+      <div className={`${cardBase} p-5 space-y-4`}>
+        <div className="flex items-center gap-3 border-b pb-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-blue-600 hover:text-blue-800 transition"
           >
-            here
-          </span>{" "}
-          to send feedback.
-        </p>
+            <ArrowLeft size={22} />
+          </button>
+          <motion.h1
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-black"
+          >
+            Settings
+          </motion.h1>
+        </div>
+
+        {/* Feedback Section */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <MessageSquare className="text-blue-500" />
+            <h2 className="text-lg font-semibold">Feedback</h2>
+          </div>
+          <p className="text-sm">
+            I’d love to hear your thoughts! Let me know if you have any
+            suggestions or issues. Click{" "}
+            <span
+              className="text-blue-600 cursor-pointer underline"
+              onClick={() => setFeedbackModal(true)}
+            >
+              here
+            </span>{" "}
+            to send feedback.
+          </p>
+        </div>
       </div>
 
       {/* Reset Section */}
@@ -80,7 +89,7 @@ const Setting = () => {
           <h2 className="text-lg font-semibold">Reset All Data</h2>
         </div>
         <div className="border-b border-gray-200 mb-4" />
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center flex-wrap gap-4">
           <p className="text-sm">This will delete all saved transactions.</p>
           <button
             onClick={() => setDeleteModal(true)}
@@ -97,11 +106,11 @@ const Setting = () => {
 
       {/* Feedback Modal */}
       {feedbackModal && (
-        <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4">
           <div
             className={`w-full max-w-md p-6 rounded-xl shadow-lg ${
               mode === "dark"
-                ? "bg-gray-800 text-gray-100"
+                ? "bg-gray-800 text-white"
                 : "bg-white text-gray-900"
             }`}
           >

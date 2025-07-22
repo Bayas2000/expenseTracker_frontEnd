@@ -4,6 +4,7 @@ import Select from "react-select";
 import { DateFilter, LoadBannerDetails } from "../Store/Banner";
 import { ArrowLeft, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Banner = () => {
   const bannerState = useSelector((state) => state.banner?.banner_list);
@@ -58,15 +59,18 @@ const Banner = () => {
           >
             <ArrowLeft size={22} />
           </button>
-          <h1
-            className={`text-2xl md:text-3xl font-bold tracking-tight ${
+
+          <motion.h1
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`text-xl md:text-2xl font-bold tracking-tight ${
               mode === "dark" ? "text-white" : "text-gray-800"
             }`}
           >
             Financial Summary
-          </h1>
+          </motion.h1>
 
-          {/* Embedded Filter */}
           <Select
             className="w-fit min-w-[140px] ml-auto"
             value={days}
