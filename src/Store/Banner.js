@@ -11,6 +11,8 @@ const BannerSlice = createSlice({
     Expense_Modal_List: [],
     Income_Modal_List: [],
     Recurring_List: [],
+    Recurring_Edit_List: [],
+    Recurring_Loading: false,
   },
   reducers: {
     Listbanner: (state, action) => {
@@ -34,6 +36,9 @@ const BannerSlice = createSlice({
     ListRecurring: (state, action) => {
       state.Recurring_List = action.payload;
     },
+    EditRecurring: (state, action) => {
+      state.Recurring_Edit_List = action.payload;
+    },
     ListIncomeModalData: (state, action) => {
       state.Income_Modal_List = action.payload;
     },
@@ -41,7 +46,10 @@ const BannerSlice = createSlice({
       state.Income_Modal_List = [];
     },
     ClearRecurringModalData: (state, action) => {
-      state.Recurring_List = [];
+      state.Recurring_Edit_List = [];
+    },
+    SetRecurringLoading: (state, action) => {
+      state.Recurring_Loading = action.payload;
     },
   },
 });
@@ -56,7 +64,9 @@ export const {
   ClearExpenseModalData,
   ClearIncomeModalData,
   ListRecurring,
-  ClearRecurringModalData
+  ClearRecurringModalData,
+  EditRecurring,
+  SetRecurringLoading,
 } = BannerSlice.actions;
 
 export const LoadBannerDetails = (searchValue) => async (dispatch) => {
@@ -103,13 +113,16 @@ export const LoadIncome = (searchValue) => async (dispatch) => {
   }
 };
 
-export const LoadRecurring = (searchValue) => async (dispatch) => {
+export const LoadRecurring = () => async (dispatch) => {
   try {
+    dispatch(SetRecurringLoading(true));
     const response = await api.get("/recurring/get-all-data");
     const data = response.data.data;
     dispatch(ListRecurring(data));
   } catch (error) {
     throw new Error();
+  } finally {
+    dispatch(SetRecurringLoading(false));
   }
 };
 

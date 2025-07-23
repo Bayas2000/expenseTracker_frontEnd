@@ -96,7 +96,7 @@ const CreateGroup = ({ showModal, setShowModal }) => {
 
   return (
     showModal && (
-      <div className="fixed inset-0 z-9999 bg-black/50 flex items-center justify-center">
+      <div className="fixed inset-0 z-9999 bg-black/50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-lg w-full max-w-lg overflow-y-auto max-h-[90vh] scrollbar-hide">
           <h2 className="text-xl font-semibold px-6 py-3 sticky top-0 bg-white">
             Create Group

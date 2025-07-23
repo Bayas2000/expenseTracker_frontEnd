@@ -22,7 +22,7 @@ function Groups() {
 
   return (
     <div className="p-6 bg-gray-50">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row  sm:justify-between justify-start sm:items-center gap-4 mb-6">
         <div>
           <h1 className="text-3xl font-extrabold text-gray-900">Team Spaces</h1>
           <p className="text-sm text-gray-500">
@@ -65,7 +65,7 @@ function Groups() {
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-800 mb-3">
+                <div className="grid sm:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2 text-sm text-gray-800 mb-3">
                   <p className="flex items-center gap-1 col-span-1">
                     🧑‍🤝‍🧑 <span>Members:</span>{" "}
                     <strong>{group.groupDetails?.length || 0}</strong>

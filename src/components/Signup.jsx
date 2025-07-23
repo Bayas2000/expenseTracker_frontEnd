@@ -17,7 +17,6 @@ const SignUp = () => {
 
   const handleImageChange = async (e) => {
     const file = e.target.files?.[0];
-    console.log(file, "file");
 
     if (file) {
       setImage(file);

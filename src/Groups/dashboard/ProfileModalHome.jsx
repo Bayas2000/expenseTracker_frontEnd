@@ -1,25 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import profileModalIcon from "../../assets/profileAvatar.jpg";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { loadUserData } from "@/Store/AuthSlice";
 
 const ProfileModalHome = ({ modalRef, logout }) => {
   const UserData = useSelector((state) => state.Auth.UserData);
-  const Navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [copied, setCopied] = React.useState(false);
+  const [imageUrl, setImageUrl] = React.useState("");
 
-  console.log(UserData, "UserData");
+  useEffect(() => {
+    dispatch(loadUserData());
+  }, []);
 
-  const handleCopy = () => {
-    if (UserData?._id) {
-      navigator.clipboard.writeText(UserData._id);
-      setCopied(true);
-      toast.info("Connection ID copied to clipboard!");
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
+  // console.log(imageUrl, "imageUrl");
+  // console.log(UserData, "UserData");
 
   return (
     <div className="absolute right-5 md:top-13.5 top-10 mt-3 md:w-80 w-fit bg-white shadow-lg rounded-b-md z-50">
@@ -28,7 +25,7 @@ const ProfileModalHome = ({ modalRef, logout }) => {
       <div className="flex items-center justify-start p-4">
         <img
           src={UserData?.profileImage || profileModalIcon}
-          alt="Profile"
+          alt=""
           className="w-20 h-20 bg-gray-200 p-1 rounded-full"
         />
 

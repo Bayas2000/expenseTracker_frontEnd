@@ -15,19 +15,17 @@ const GroupHeader = () => {
   const notificationAvailable = useSelector(
     (state) => state.groupHeader?.notification_animate
   );
-    const UserData = useSelector((state) => state.Auth.UserData);
-
+  const UserData = useSelector((state) => state.Auth.UserData);
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const profileModalRef = useRef(null);
   const NotificationModalRef = useRef(null);
 
-  console.log(notificationAvailable, "notificationAvailable");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(ListNotificationDetails());
+    dispatch(ListNotificationDetails()); 
   }, [dispatch]);
 
   useEffect(() => {
@@ -99,7 +97,10 @@ const GroupHeader = () => {
         </button>
 
         {isNotificationModalOpen && (
-          <NotificationModal modalRef={NotificationModalRef} />
+          <NotificationModal
+            modalRef={NotificationModalRef}
+            setIsNotificationModalOpen={setIsNotificationModalOpen}
+          />
         )}
       </div>
 

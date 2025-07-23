@@ -13,17 +13,7 @@
 
 // }
 
-// // api.interceptors.response.use(
-// //   response => response,
-// //   error => {
-// //     if (error.response?.status === 401) {
-// //       delete api.defaults.headers.common["Authorization"];
-// //       // Redirect to login page
-// //       window.location.href = "/login";
-// //     }
-// //     return Promise.reject(error);
-// //   }
-// // );
+
 
 // export default api
 
@@ -57,3 +47,16 @@ axiosRetry(api, {
 });
 
 export default api;
+
+
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response?.status === 401) {
+      delete api.defaults.headers.common["Authorization"];
+      // Redirect to login page
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);

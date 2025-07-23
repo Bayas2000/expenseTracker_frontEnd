@@ -8,7 +8,7 @@ import {
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 
-const NotificationModal = ({ modalRef }) => {
+const NotificationModal = ({ modalRef , setIsNotificationModalOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data = [] } = useSelector(
@@ -45,7 +45,7 @@ const NotificationModal = ({ modalRef }) => {
   return (
     <div
       ref={modalRef}
-      className="absolute right-0 mt-3 w-96 bg-white shadow-xl rounded-xl z-50 overflow-hidden"
+      className="absolute right-0 mt-3 sm:w-96 min-w-56 p-4 w-[100%] bg-white shadow-xl rounded-xl z-9999 overflow-hidden"
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gray-50">
@@ -113,7 +113,9 @@ const NotificationModal = ({ modalRef }) => {
       {/* Footer */}
       <div className="px-4 py-3 border-t border-gray-200 bg-gray-50 text-center">
         <button
-          onClick={() => navigate("/business/notifications")}
+          onClick={() => {navigate("/business/notifications")
+            setIsNotificationModalOpen(false)
+          }}
           className="text-sm text-blue-600 hover:underline"
         >
           View All
