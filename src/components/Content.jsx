@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MonthlyExpenseOverview from "./monthlyExpense/MonthlyExpenseOverview";
 import Recurring from "./Recurring/Recurring";
 import RecurringModal from "./Recurring/RecurringModal";
-import { LoadRecurring } from "@/Store/Banner";
+import { ClearRecurringModalData, LoadRecurring } from "@/Store/Banner";
 import api from "@/api/api";
 import AddRecurringExpenseModal from "./goals/RecurringModal";
 import { toast } from "react-toastify";
@@ -23,8 +23,11 @@ const Content = () => {
   const [activeButton, setActiveButton] = React.useState("daily");
   const [loading, setLoading] = React.useState(false);
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    dispatch(LoadRecurring());
+  }, []);
 
   React.useEffect(() => {
     setLoading(true);
@@ -41,9 +44,8 @@ const Content = () => {
       dispatch(LoadRecurring());
       toast.success("Recurring expense added successfully");
     } catch (err) {
-      toast.error("Failed to add recurring expense " , err);
-      console.log(err , 'err');
-      
+      toast.error("Failed to add recurring expense ", err);
+      console.log(err, "err");
     }
   };
 
@@ -104,9 +106,7 @@ const Content = () => {
           />
         </div>
       ) : (
-        <Recurring 
-         setOpenRecurringModal ={setOpenRecurringModal}
-         />
+        <Recurring setOpenRecurringModal={setOpenRecurringModal} />
       )}
 
       <div
@@ -117,6 +117,7 @@ const Content = () => {
             setActiveTab("expense");
           } else if (activeButton == "recurring") {
             setOpenRecurringModal(true);
+            dispatch(ClearRecurringModalData());
           }
         }}
       >
@@ -142,7 +143,10 @@ const Content = () => {
         <div className="position-fixed  top-15 left-[16%] absolute ">
           <AddRecurringExpenseModal
             isOpen={openRecurringModal}
-            onClose={() => setOpenRecurringModal(false)}
+            onClose={() => {
+              setOpenRecurringModal(false);
+              dispatch(LoadRecurring());
+            }}
             onSubmit={handleAddRecurring}
           />
         </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { RepeatIcon } from "lucide-react";
-import { ListRecurring, LoadRecurring } from "@/Store/Banner";
+import { LoaderCircle, RepeatIcon } from "lucide-react";
+import { EditRecurring, ListRecurring, LoadRecurring } from "@/Store/Banner";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
@@ -9,21 +9,25 @@ const Recurring = ({ setOpenRecurringModal }) => {
 
   useEffect(() => {
     dispatch(LoadRecurring());
-  }, []);
+  }, [dispatch]);
 
   const recurring = useSelector((state) => state.banner);
-  const { Recurring_List = [] } = recurring;
+  const { Recurring_List = [], Recurring_Loading } = recurring;
 
   const handleCardClick = (data) => {
-    dispatch(ListRecurring(data));
+    dispatch(EditRecurring(data));
     setOpenRecurringModal(true);
   };
 
   return (
     <div className="w-full px-4 py-6">
-      {Recurring_List?.length > 0 ? (
+      {Recurring_Loading ? (
+        <div className="flex justify-center items-center min-h-60">
+          <LoaderCircle className="animate-spin w-8 h-8 text-blue-500" />
+        </div>
+      ) : Recurring_List?.length > 0 ? (
         <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {Recurring_List.map((data) => (
+          {Recurring_List.filter((fil) => fil.isActive === true).map((data) => (
             <div
               key={data._id}
               onClick={() => handleCardClick(data)}
