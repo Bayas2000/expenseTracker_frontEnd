@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import GroupHeader from "./GroupHeader";
-import BottomBar from "../Sidebar/BottomBar"; 
 import { useSelector } from "react-redux";
+import BottomBar from "../Sidebar/GroupBottombar";
 
 const DashboardLayout = () => {
   const sidebarToggle = useSelector(

@@ -2,8 +2,6 @@ import moment from "moment";
 import React from "react";
 
 const ListMembers = ({groupDetails}) => {
-
-  console.log("groupDetails in list", groupDetails);
   
   return (
     <div className="bg-white shadow-lg rounded-xl overflow-hidden">

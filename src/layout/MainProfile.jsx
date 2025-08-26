@@ -115,7 +115,7 @@ const Profile = () => {
   const containerStyle =
     mode === "dark" ? "bg-[#f5f6fa] text-[#2D3A45]" : "bg-white";
 
-  const imageToShow = formData.profileImage || profile.profileImage;
+  const imageToShow = formData?.profileImage || profile?.profileImage;
 
   return (
     <>

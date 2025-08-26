@@ -37,8 +37,7 @@ const Profile = () => {
 
   const containerStyle =
     mode === "dark" ? "bg-[#f5f6fa] text-[#2D3A45]" : "bg-white";
-
-  
+      
    return (
   <div className="max-w-4xl mx-auto px-4 py-8">
     {/* Profile Card */}

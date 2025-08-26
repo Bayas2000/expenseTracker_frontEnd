@@ -7,7 +7,6 @@ import { ListInvestmentDetails } from "@/Store/Groups/groupsList";
 
 const UpdateTransaction = ({ showModal, setShowModal, groupId, rows }) => {
   const dispatch = useDispatch();
-  console.log(rows, "rows");
 
   const [members, setMembers] = React.useState([]);
   const [amount, setAmount] = React.useState("");

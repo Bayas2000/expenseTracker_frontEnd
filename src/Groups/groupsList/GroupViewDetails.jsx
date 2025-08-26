@@ -24,8 +24,6 @@ const GroupViewDetails = ({}) => {
   const groupId = group?._id || "";
 
   const groupDetails = groupData.filter((data) => data._id === groupId);
-
-  console.log("recordsDetails", recordsDetails[0]?.summaryCarts);
   
 
   const [showCreateEmployee, setShowCreateEmployee] = React.useState(false);

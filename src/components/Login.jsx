@@ -15,6 +15,7 @@ const Login = ({ setOpenLogIn, setOptionModal }) => {
   const { UserLoggedIn } = isLoggedInState;
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+  const pushToken = localStorage.getItem("deviceToken");
 
   useEffect(() => {
     dispatch(isLoggedIn(false));
@@ -37,10 +38,16 @@ const Login = ({ setOpenLogIn, setOptionModal }) => {
     setError("");
 
     try {
-      const payload = { userName: username.trim(), password };
+      const payload = {
+        userName: username.trim(),
+        password,
+        deviceToken: pushToken || "",
+      };
+      
       const res = await api.post("/userAuth/login", payload);
       const token = res.data.data;
       localStorage.setItem("token", token);
+      console.log(pushToken, "pushToken");
       dispatch(isLoggedIn(true));
       dispatch(loadUserData());
       navigate("/");

@@ -18,8 +18,6 @@ const IncomeAdd = ({ setOpenAddModal, setActiveTab }) => {
   const dateFilter = useSelector((state) => state.banner?.date_Filter);
   const mode = useSelector((state) => state.theme.mode);
 
-  console.log(IncomeModal, "IncomeModal");
-
   const dispatch = useDispatch();
 
   React.useEffect(() => {

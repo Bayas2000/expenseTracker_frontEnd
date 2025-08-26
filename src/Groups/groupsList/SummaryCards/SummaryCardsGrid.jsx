@@ -3,8 +3,6 @@ import { FaRegEdit } from "react-icons/fa";
 import TargetUpdateModal from "./TargetUpdateModal";
 
 const SummaryCard = ({ title, value, card, showModal, setShowModal }) => {
-  console.log(title, value, "records values");
-  console.log(card, "card values");
 
   return (
     <div

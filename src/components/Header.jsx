@@ -14,8 +14,6 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log(UserData, "userData");
-
   // useEffect(() => {
   //   if (!UserLoggedIn) {
   //     navigate("/login");

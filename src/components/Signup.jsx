@@ -25,7 +25,6 @@ const SignUp = () => {
       await api
         .post("/fileUpload/file-upload", formData)
         .then((res) => {
-          console.log(res.data.data, "res");
           setPreviewUrl(res.data.data);
           toast.success("Image uploaded successfully");
         })
